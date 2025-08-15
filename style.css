@@ -1,0 +1,182 @@
+:root {
+  --dark-green: #6B9080;
+  --muted-green: #A4C3B2;
+  --pale-teal: #CCE3DE;
+  --light-teal: #EAF4F4;
+  --almost-white: #F6FFF8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--almost-white);
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--dark-green);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar .logo {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: lowercase;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: lowercase;
+}
+
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Hero */
+.hero {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-overlay {
+  background-color: rgba(107, 144, 128, 0.6);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay h1 {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* About */
+.about {
+  background-color: var(--light-teal);
+  padding: 4rem 2rem;
+}
+
+.about h2 {
+  text-align: left;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.profile-pic {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Experience */
+.experience {
+  background-color: var(--pale-teal);
+  padding: 4rem 2rem;
+}
+
+.exp-card {
+  background-color: var(--dark-green);
+  color: white;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  border-radius: 10px;
+}
+
+.exp-card h3 {
+  margin: 0;
+}
+
+.date {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+/* Education */
+.education {
+  background-color: var(--light-teal);
+  padding: 4rem 2rem;
+}
+
+.edu-card {
+  background-color: var(--pale-teal);
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  border-radius: 10px;
+}
+
+/* Skills */
+.skills {
+  background-color: var(--muted-green);
+  padding: 4rem 2rem;
+}
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.skill-card {
+  background-color: var(--almost-white);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+/* Contact */
+.contact {
+  background-color: var(--pale-teal);
+  text-align: center;
+  padding: 2rem;
+}
+
+.contact img {
+  width: 40px;
+  margin: 0 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: var(--dark-green);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
