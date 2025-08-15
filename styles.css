@@ -33,7 +33,6 @@ body {
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
-  text-transform: lowercase;
 }
 
 .navbar ul {
@@ -45,10 +44,9 @@ body {
 }
 
 .navbar ul li a {
-  color: white;
+  color: #F6FFF8;
   text-decoration: none;
   font-weight: bold;
-  text-transform: lowercase;
 }
 
 .navbar ul li a:hover {
@@ -72,9 +70,16 @@ body {
 }
 
 .hero-overlay h1 {
-  color: white;
+  color: #F6FFF8;
   font-size: 2rem;
   text-align: center;
+}
+
+/* Section Headings */
+section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: left;
 }
 
 /* About */
@@ -84,7 +89,7 @@ body {
 }
 
 .about h2 {
-  text-align: left;
+  color: #6B9080;
 }
 
 .about-content {
@@ -96,17 +101,18 @@ body {
   margin: auto;
 }
 
-.about-content p {
-  flex: 1;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
 .profile-pic {
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.about-content p {
+  color: #6B9080;
+  flex: 1;
+  font-size: 1.1rem;
+  line-height: 1.8;
 }
 
 /* Experience */
@@ -115,17 +121,17 @@ body {
   padding: 4rem 2rem;
 }
 
+.experience h2 {
+  color: #6B9080;
+}
+
 .exp-card {
   background-color: var(--dark-green);
-  color: white;
+  color: #F6FFF8;
   padding: 1.5rem;
   margin: 1rem auto;
   max-width: 800px;
   border-radius: 10px;
-}
-
-.exp-card h3 {
-  margin: 0;
 }
 
 .date {
@@ -139,24 +145,26 @@ body {
   padding: 4rem 2rem;
 }
 
+.education h2 {
+  color: #6B9080;
+}
 .edu-card {
-  background-color: var(--pale-teal);
+  background-color: var(--dark-green);
+  color: #F6FFF8;
   padding: 1.5rem;
   margin: 1rem auto;
   max-width: 800px;
   border-radius: 10px;
 }
 
-.education,
-.skills {
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
 /* Skills */
 .skills {
   background-color: var(--muted-green);
   padding: 4rem 2rem;
+}
+
+.skills h2 {
+  color: #6B9080;
 }
 
 .skill-grid {
@@ -168,37 +176,27 @@ body {
 }
 
 .skill-card {
-  background-color: var(--almost-white);
+  background-color: #F6FFF8;
+  color: #6B9080;
   padding: 1rem;
   border-radius: 10px;
-}
-
-/* Contact */
-.contact {
   text-align: center;
-  padding: 2rem;
-}
-
-.contact img {
-  width: 24px;
-  margin: 0 1rem;
 }
 
 /* Footer */
 footer {
   background-color: var(--dark-green);
-  color: white;
+  color: #F6FFF8;
   text-align: center;
   padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 footer .contact img {
   width: 36px;
   height: auto;
   margin: 0 0.5rem;
-  vertical-align: middle;
-}
-
-footer .contact {
-  margin-top: 0.5rem;
 }

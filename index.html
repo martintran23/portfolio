@@ -1,123 +1,108 @@
 <!DOCTYPE html>
-<html lang ="en">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martin | Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martin | Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Navbar-->
-    <nav class="navbar">
-        <div class="logo">martin</div>
-        <ul>
-            <li><a href="#about">about</a></li>
-            <li><a href="#experience">experience</a></li>
-            <li><a href="#education">education</a></li>
-            <li><a href="#skills">skills</a></li>
-            <li><a href="assets/resume.pdf" target="_blank">resume</a></li>
-        </ul>
-    </nav>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">martin</div>
+    <ul>
+      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="assets/resume.pdf" target="_blank">resume</a></li>
+    </ul>
+  </nav>
 
-    <!-- Hero Section -->
-    <header class="hero" style="background-image: url('assets/background.jpg');">
-        <div class="hero-overlay">
-            <h1>hi i’m martin<br> welcome to my portfolio</h1>
-        </div>
-    </header>
+  <!-- Hero -->
+  <header class="hero" style="background-image: url('assets/background.jpeg');">
+    <div class="hero-overlay">
+      <h1>hi i’m martin<br>welcome to my portfolio</h1>
+    </div>
+  </header>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <h2>About Me</h2>
-        <div class="about-content">
-          <img src="assets/profile.jpg" alt="Martin profile photo" class="profile-pic">
-          <p>Hi, I’m Martin — a student, software engineer, and developer with a curiosity for creating and securing digital systems. I’m currently an undergraduate at Cal State University of Fullerton, pursuing a Bachelor of Science in Computer Science with a specialization in Cybersecurity. Outside of academics, I enjoy fish keeping, gaming, and weight lifting. I’m also a huge fan of the Jurassic Park and Jurassic World movies. My passion lies in building solutions that blend creativity with security. I’m always eager to learn new technologies that push my skills further and gain any valuable insight!</p>
-        </div>
-    </section>
+  <!-- About -->
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <div class="about-content">
+      <img src="assets/profile.jpg" alt="Martin profile photo" class="profile-pic">
+      <p>Hi, I’m Martin — a student, software engineer, and developer with a curiosity for creating and securing digital systems. I’m currently an undergraduate at Cal State University of Fullerton, pursuing a Bachelor of Science in Computer Science with a specialization in Cybersecurity. Outside of academics, I enjoy fish keeping, gaming, and weight lifting. I’m also a huge fan of the Jurassic Park and Jurassic World movies. My passion lies in building solutions that blend creativity with security. I’m always eager to learn new technologies that push my skills further and gain any valuable insight!</p>
+    </div>
+  </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <h2>Experience</h2>
-        <div class="exp-card">
-            <h3>Product Manager Accelerator <span>AI Engineer</span></h3>
-            <p class="date">June 2025 – Present</p>
-            <ul>
-                <li>Built a resume analyzer web application to assist job seekers by evaluating resume alignment with job descriptions.</li>
-                <li>Developed the backend using FastAPI and PostgreSQL, deployed on Microsoft Azure, with DeepSeek R-1 LLM for semantic resume-to-job matching.</li>
-                <li>Engineered an AI-driven scoring algorithm that extracts key job requirements and highlights strengths and gaps in user resumes.</li>
-            </ul>
-        </div>
-        <div class="exp-card">
-            <h3>OpenQQuantify <span>Software Development Intern</span></h3>
-            <p class="date">May 2025 – Present</p>
-            <ul>
-                <li>Developed an AI health assistant chatbot using LLMs (Hugging Face) for semantic search and FAQ generation.</li>
-                <li>Built a Python ETL pipeline to transform FDA drug data from nested JSON to clean, structured CSVs.</li>
-                <li>Designed a responsive frontend (HTML/CSS/JS) featuring real-time chat UI and theme toggling to improve user accessibility and engagement.</li>
-                <li>Automated 3D asset acquisition via public APIs with license filtering (e.g., CC0), converting assets to optimized glTF/GLB format using Blender (headless mode), Assimp, and Python scripting, then integrating them into the web interface with Three.js for interactive, real-time 3D visualization.</li>
-            </ul>
-        </div>
-    </section>
+  <!-- Experience -->
+  <section id="experience" class="experience">
+    <h2>Experience</h2>
+    <div class="exp-card">
+      <h3>Product Manager Accelerator</h3>
+      <p>AI Engineer</p>
+      <p class="date">June 2025 – Present</p>
+      <ul>
+        <li>Built a resume analyzer web application to assist job seekers by evaluating resume alignment with job descriptions.</li>
+        <li>Developed the backend using FastAPI and PostgreSQL, deployed on Microsoft Azure, with DeepSeek R-1 LLM for semantic resume-to-job matching.</li>
+        <li>Engineered an AI-driven scoring algorithm that extracts key job requirements and highlights strengths and gaps in user resumes.</li>
+      </ul>
+    </div>
+    <div class="exp-card">
+      <h3>OpenQQuantify</h3>
+      <p>Software Development Intern</p>
+      <p class="date">May 2025 – Present</p>
+      <ul>
+        <li>Developed an AI health assistant chatbot using LLMs (Hugging Face) for semantic search and FAQ generation.</li>
+        <li>Built a Python ETL pipeline to transform FDA drug data from nested JSON to clean, structured CSVs.</li>
+        <li>Designed a responsive frontend (HTML/CSS/JS) featuring real-time chat UI and theme toggling to improve user accessibility and engagement.</li>
+        <li>Automated 3D asset acquisition via public APIs with license filtering, converting assets to optimized glTF/GLB format and integrating into a Three.js interface for interactive visualization.</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- Education Section -->
-    <section id="education" class="education">
-        <h2>Education</h2>
-        <div class="edu-card">
-            <h3>California State University, Fullerton</h3>
-            <p>B.S. in Computer Science w/ Specialization in Cybersecurity</p>
-            <p class="date">Aug 2023 – Jun 2027</p>
-            <ul>
-                <li>GPA: 3.7 | Dean’s Honor List</li>
-            </ul>
-        </div>
-        <div class="edu-card">
-            <h3>La Quinta High School</h3>
-            <p>High School Diploma</p>
-            <p class="date">Aug 2019 – Jun 2023</p>
-            <ul>
-                <li>GPA: 4.23 | AP Scholar Award</li>
-            </ul>
-        </div>
-    </section>
+  <!-- Education -->
+  <section id="education" class="education">
+    <h2>Education</h2>
+    <div class="edu-card">
+      <h3>California State University, Fullerton</h3>
+      <p>B.S. in Computer Science w/ Specialization in Cybersecurity</p>
+      <p class="date">Aug 2023 – Jun 2027</p>
+      <ul>
+        <li>GPA: 3.7 | Dean’s Honor List</li>
+      </ul>
+    </div>
+    <div class="edu-card">
+      <h3>La Quinta High School</h3>
+      <p>High School Diploma</p>
+      <p class="date">Aug 2019 – Jun 2023</p>
+      <ul>
+        <li>GPA: 4.23 | Principals Honor Roll, AP Scholar Award, Seal of Biliteracy & Golden State Seal Merit Diploma</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <h2>Skills</h2>
-        <div class="skill-grid">
-            <div class="skill-card">
-            <h3>Languages</h3>
-            <p>Python, HTML, CSS, JavaScript, C++, Java</p>
-        </div>
-        <div class="skill-card">
-            <h3>Frameworks</h3>
-            <p>Flask, FastAPI, Bootstrap</p>
-        </div>
-        <div class="skill-card">
-            <h3>Databases</h3>
-            <p>MongoDB, PostgreSQL</p>
-        </div>
-        <div class="skill-card">
-            <h3>Developer Tools</h3>
-            <p>VS Code, GitHub, Postman, Vercel, Render</p>
-        </div>
-    </section>
+  <!-- Skills -->
+  <section id="skills" class="skills">
+    <h2>Skills</h2>
+    <div class="skill-grid">
+      <div class="skill-card"><h3>Languages</h3><p>Python, HTML, CSS, JavaScript, C++, Java</p></div>
+      <div class="skill-card"><h3>Frameworks</h3><p>Flask, FastAPI, Bootstrap</p></div>
+      <div class="skill-card"><h3>Databases</h3><p>MongoDB, PostgreSQL</p></div>
+      <div class="skill-card"><h3>Developer Tools</h3><p>VS Code, GitHub, Postman, Vercel, Render</p></div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>© Martin Tran 2025</p>
-        <div class="contact">
-            <a href="https://github.com/martintran23" target="_blank">
-                <img src="assets/github.png" alt="GitHub">
-            </a>
-            <a href="mailto:23martintran@gmail.com" target="_blank">
-                <img src="assets/gmail.png" alt="Gmail">
-            </a>
-            <a href="https://www.linkedin.com/in/23martintran" target="_blank">
-                <img src="assets/linkedin.png" alt="LinkedIn">
-            </a>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer>
+    <p>© Martin Tran 2025</p>
+    <div class="contact">
+      <a href="https://linkedin.com/in/23martintran" target="_blank"><img src="assets/linkedin.png" alt="LinkedIn"></a>
+      <a href="https://github.com/martintran23" target="_blank"><img src="assets/github.png" alt="GitHub"></a>
+      <a href="mailto:23martintran@gmail.com" target="_blank"><img src="assets/gmail.png" alt="Gmail"></a>
+    </div>
+  </footer>
 
 </body>
 </html>
