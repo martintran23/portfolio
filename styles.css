@@ -96,6 +96,12 @@ body {
   margin: auto;
 }
 
+.about-content p {
+  flex: 1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
 .profile-pic {
   width: 180px;
   height: 180px;
@@ -141,6 +147,12 @@ body {
   border-radius: 10px;
 }
 
+.education,
+.skills {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
 /* Skills */
 .skills {
   background-color: var(--muted-green);
@@ -178,4 +190,15 @@ footer {
   color: white;
   text-align: center;
   padding: 1rem;
+}
+
+footer .contact img {
+  width: 36px;
+  height: auto;
+  margin: 0 0.5rem;
+  vertical-align: middle;
+}
+
+footer .contact {
+  margin-top: 0.5rem;
 }
