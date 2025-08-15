@@ -93,6 +93,7 @@ section h2 {
 }
 
 .about-content {
+  color: #6B9080;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
