@@ -163,13 +163,12 @@ body {
 
 /* Contact */
 .contact {
-  background-color: var(--pale-teal);
   text-align: center;
   padding: 2rem;
 }
 
 .contact img {
-  width: 2px;
+  width: 24px;
   margin: 0 1rem;
 }
 
