@@ -83,6 +83,21 @@ section h2 {
 }
 
 /* About */
+@media (max-width: 768px) { /* Mobile style override */
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-content p {
+    text-align: left;
+  }
+
+  .profile-pic {
+    margin: 0 auto;
+  }
+}
+
 .about {
   background-color: var(--light-teal);
   padding: 4rem 2rem;
