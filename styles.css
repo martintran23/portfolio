@@ -178,6 +178,30 @@ section h2 {
   color: #ddd;
 }
 
+/* Projects */
+.projects {
+  background-color: var(--dark-green);
+  padding: 4rem 2rem;
+}
+
+.projects h2 {
+  color: #EAF4F4;
+}
+
+.project-card {
+  background-color: var(--light-teal);
+  color: #6B9080;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  border-radius: 10px;
+}
+
+.projects .date {
+  font-size: 0.9rem;
+  color: #A9A9A9;
+}
+
 /* Education */
 .education {
   background-color: var(--light-teal);
