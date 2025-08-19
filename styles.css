@@ -188,12 +188,23 @@ section h2 {
   color: #EAF4F4;
 }
 
+.projects a {
+  color: #6B9080;
+}
+
 .project-card {
   background-color: var(--light-teal);
   color: #6B9080;
   padding: 1.5rem;
   margin: 1rem auto;
   max-width: 800px;
+  border-radius: 10px;
+}
+
+.project-pic {
+  max-width: 100%;
+  height: auto;
+  display: block;
   border-radius: 10px;
 }
 
