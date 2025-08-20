@@ -190,6 +190,11 @@ section h2 {
 
 .projects a {
   color: #6B9080;
+  transition: color 0.3s ease;
+}
+
+.projects a:hover {
+  color: #06402B;
 }
 
 .project-card {
