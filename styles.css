@@ -203,8 +203,8 @@ section h2 {
 
 .project-pic {
   width: 100%;
-  height: 100%;          /* force to fill container height */
-  object-fit: cover;     /* crop to maintain aspect ratio */
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
   display: block;
 }
