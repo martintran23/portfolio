@@ -17,6 +17,14 @@ body {
   color: #333;
 }
 
+/* Logo */
+.logo a {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 /* Navbar */
 @media (max-width: 768px) { /* Mobile style override */
   .navbar {
