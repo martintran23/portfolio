@@ -351,6 +351,28 @@ section {
   transform: scale(1.05);
 }
 
+/* Skills grid for mobile */
+@media (max-width: 480px) {
+  .skill-grid {
+    grid-template-columns: 1fr; /* stack cards vertically */
+    gap: 1rem;
+  }
+
+  .skill-card {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 2rem 1rem;
+  }
+  .exp-card, .project-card, .edu-card {
+    padding: 1rem;
+  }
+}
+
 /* Shared card hover effect */
 .exp-card,
 .project-card,
