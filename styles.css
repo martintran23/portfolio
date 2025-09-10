@@ -15,6 +15,36 @@ body {
   font-family: Arial, sans-serif;
   background-color: var(--almost-white);
   color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global section layout: every section fills viewport with equal top/bottom space */
+section {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center; /* centers the .section-content vertically in viewport */
+}
+
+/* Shared content container to match About width */
+.section-content {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* left-align children (h2, cards, etc.) */
+}
+
+/* Headings inside the section-content */
+.section-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 /* Logo */
@@ -26,7 +56,7 @@ body {
 }
 
 /* Navbar */
-@media (max-width: 768px) { /* Mobile style override */
+@media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: center;
@@ -104,17 +134,12 @@ body {
   color: #F6FFF8;
   font-size: 2rem;
   text-align: left;
-}
-
-/* Section Headings */
-section h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  text-align: left;
+  max-width: 1000px;
+  margin: 0 1.5rem;
 }
 
 /* About */
-@media (max-width: 768px) { /* Mobile style override */
+@media (max-width: 768px) {
   .about-content {
     flex-direction: column;
     text-align: center;
@@ -127,11 +152,20 @@ section h2 {
   .profile-pic {
     margin: 0 auto;
   }
+
+  .section-content {
+    padding: 0 1rem;
+  }
+
+  .hero-overlay h1 {
+    text-align: center;
+    font-size: 1.8rem;
+  }
 }
 
 .about {
   background-color: var(--light-teal);
-  padding: 4rem 2rem;
+  /* padding handled by section rule */
 }
 
 .about h2 {
@@ -144,8 +178,8 @@ section h2 {
   flex-wrap: wrap;
   gap: 2rem;
   align-items: center;
-  max-width: 1000px;
-  margin: auto;
+  /* keep max-width in .section-content */
+  width: 100%;
 }
 
 .profile-pic {
@@ -165,7 +199,6 @@ section h2 {
 /* Experience */
 .experience {
   background-color: var(--pale-teal);
-  padding: 4rem 2rem;
 }
 
 .experience h2 {
@@ -176,9 +209,10 @@ section h2 {
   background-color: var(--dark-green);
   color: #F6FFF8;
   padding: 1.5rem;
-  margin: 1rem auto;
-  max-width: 800px;
+  margin: 1rem 0;
+  width: 100%;            /* take full width of section-content */
   border-radius: 10px;
+  box-sizing: border-box;
 }
 
 .date {
@@ -189,7 +223,6 @@ section h2 {
 /* Projects */
 .projects {
   background-color: var(--dark-green);
-  padding: 4rem 2rem;
 }
 
 .projects h2 {
@@ -209,14 +242,17 @@ section h2 {
   background-color: var(--light-teal);
   color: #6B9080;
   padding: 1.5rem;
-  margin: 1rem auto;
-  max-width: 800px;
+  margin: 1rem 0;
+  width: 100%;
   border-radius: 10px;
+  box-sizing: border-box;
+  display: block;
 }
 
 .project-pic {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 360px;
   object-fit: cover;
   border-radius: 10px;
   display: block;
@@ -230,19 +266,20 @@ section h2 {
 /* Education */
 .education {
   background-color: var(--light-teal);
-  padding: 4rem 2rem;
 }
 
 .education h2 {
   color: #6B9080;
 }
+
 .edu-card {
   background-color: var(--dark-green);
   color: #F6FFF8;
   padding: 1.5rem;
-  margin: 1rem auto;
-  max-width: 800px;
+  margin: 1rem 0;
+  width: 100%;
   border-radius: 10px;
+  box-sizing: border-box;
 }
 
 /* Skills */
@@ -257,8 +294,8 @@ section h2 {
 
 .skill-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
   max-width: 1000px;
   margin: auto;
 }
@@ -266,9 +303,51 @@ section h2 {
 .skill-card {
   background-color: #F6FFF8;
   color: #6B9080;
-  padding: 1rem;
-  border-radius: 10px;
-  text-align: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.skill-card h3 {
+  margin-bottom: 1rem;
+  color: var(--dark-green);
+}
+
+.skill-tags span {
+  display: inline-block;
+  background: var(--light-teal);
+  color: var(--dark-green);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0.3rem;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.skill-tags span:hover {
+  background: var(--pale-teal);
+  transform: scale(1.05);
+}
+
+/* Shared card hover effect */
+.exp-card,
+.project-card,
+.edu-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exp-card:hover,
+.project-card:hover,
+.edu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
 }
 
 /* Footer */
@@ -276,7 +355,7 @@ footer {
   background-color: var(--dark-green);
   color: #F6FFF8;
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
