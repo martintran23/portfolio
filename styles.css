@@ -138,6 +138,21 @@ section {
   margin: 0 1.5rem;
 }
 
+/* Reading hover effect for About page words */
+.about-content p span {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.about-content p span:hover {
+  background-color: var(--dark-green);
+  color: var(--almost-white);
+  transform: scale(1.1);
+}
+
 /* About */
 @media (max-width: 768px) {
   .about-content {

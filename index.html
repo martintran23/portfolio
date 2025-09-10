@@ -195,5 +195,16 @@
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const aboutParagraphs = document.querySelectorAll('.about-content p');
+
+      aboutParagraphs.forEach(p => {
+        const words = p.textContent.split(' ');
+        p.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
+      });
+    });
+  </script>
+
 </body>
 </html>
