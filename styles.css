@@ -19,16 +19,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Global section layout: every section fills viewport with equal top/bottom space */
+/* Global section layout */
 section {
   min-height: 100vh;
   padding: 4rem 2rem;
   box-sizing: border-box;
   display: flex;
-  align-items: center; /* centers the .section-content vertically in viewport */
+  align-items: center;
 }
 
-/* Shared content container to match About width */
+/* Shared content container */
 .section-content {
   max-width: 1000px;
   width: 100%;
@@ -37,7 +37,7 @@ section {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* left-align children (h2, cards, etc.) */
+  align-items: flex-start;
 }
 
 /* Headings inside the section-content */
@@ -56,29 +56,6 @@ section {
 }
 
 /* Navbar */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem 1rem;
-  }
-
-  .navbar ul {
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    padding: 0;
-    width: auto;
-    align-items: center;
-  }
-
-  .navbar ul li a {
-    display: block;
-    padding: 0.3rem 0.5rem;
-    font-size: 0.9rem;
-  }
-}
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -88,6 +65,7 @@ section {
   position: sticky;
   top: 0;
   z-index: 10;
+  transition: top 0.3s ease;
 }
 
 .navbar .logo {
@@ -178,9 +156,9 @@ section {
   }
 }
 
+/* About section */
 .about {
   background-color: var(--light-teal);
-  /* padding handled by section rule */
 }
 
 .about h2 {
@@ -193,7 +171,6 @@ section {
   flex-wrap: wrap;
   gap: 2rem;
   align-items: center;
-  /* keep max-width in .section-content */
   width: 100%;
 }
 
@@ -225,7 +202,7 @@ section {
   color: #F6FFF8;
   padding: 1.5rem;
   margin: 1rem 0;
-  width: 100%;            /* take full width of section-content */
+  width: 100%;
   border-radius: 10px;
   box-sizing: border-box;
 }
@@ -354,7 +331,7 @@ section {
 /* Skills grid for mobile */
 @media (max-width: 480px) {
   .skill-grid {
-    grid-template-columns: 1fr; /* stack cards vertically */
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
@@ -362,12 +339,11 @@ section {
     padding: 1rem;
     font-size: 0.95rem;
   }
-}
 
-@media (max-width: 480px) {
   section {
     padding: 2rem 1rem;
   }
+
   .exp-card, .project-card, .edu-card {
     padding: 1rem;
   }

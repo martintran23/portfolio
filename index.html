@@ -11,7 +11,8 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo"><a href="#">martin</a></div>
-    <ul>
+
+    <ul class="nav-links">
       <li><a href="#about">about</a></li>
       <li><a href="#experience">experience</a></li>
       <li><a href="#projects">projects</a></li>
@@ -66,6 +67,7 @@
           <li>Collaborated on branch-based Git workflows, maintaining separate dev/testing branches and managing schema/database updates for new features.</li>
         </ul>
       </div>
+
     </div>
   </section>
 
@@ -144,6 +146,7 @@
     <div class="section-content">
       <h2>Skills</h2>
       <div class="skill-grid">
+
         <div class="skill-card">
           <h3>Languages</h3>
           <div class="skill-tags">
@@ -155,6 +158,7 @@
             <span>Java</span>
           </div>
         </div>
+
         <div class="skill-card">
           <h3>Frameworks</h3>
           <div class="skill-tags">
@@ -163,6 +167,7 @@
             <span>Bootstrap</span>
           </div>
         </div>
+
         <div class="skill-card">
           <h3>Databases</h3>
           <div class="skill-tags">
@@ -170,6 +175,7 @@
             <span>PostgreSQL</span>
           </div>
         </div>
+
         <div class="skill-card">
           <h3>Developer Tools</h3>
           <div class="skill-tags">
@@ -181,6 +187,7 @@
             <span>Figma</span>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -195,16 +202,31 @@
     </div>
   </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const aboutParagraphs = document.querySelectorAll('.about-content p');
-
-      aboutParagraphs.forEach(p => {
-        const words = p.textContent.split(' ');
-        p.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
-      });
+  <!-- JS -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wrap About text words in span for hover effect
+    const aboutParagraphs = document.querySelectorAll('.about-content p');
+    aboutParagraphs.forEach(p => {
+      const words = p.textContent.split(' ');
+      p.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
     });
-  </script>
+
+    // Navbar hide on scroll
+    const navbar = document.querySelector('.navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', () => {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop) {
+        navbar.style.top = '-80px'; // adjust to navbar height
+      } else {
+        navbar.style.top = '0';
+      }
+      lastScrollTop = scrollTop;
+    });
+  });
+</script>
 
 </body>
 </html>
