@@ -4,6 +4,7 @@
   --pale-teal: #CCE3DE;
   --light-teal: #EAF4F4;
   --almost-white: #F6FFF8;
+  --mystic-moss: #586f6b;
 }
 
 html {
@@ -207,6 +208,16 @@ section {
   box-sizing: border-box;
 }
 
+.opp-card {
+  background-color: var(--mystic-moss);
+  color: #F6FFF8;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
 .date {
   font-size: 0.9rem;
   color: #ddd;
@@ -344,19 +355,21 @@ section {
     padding: 2rem 1rem;
   }
 
-  .exp-card, .project-card, .edu-card {
+  .exp-card, .opp-card,.project-card, .edu-card {
     padding: 1rem;
   }
 }
 
 /* Shared card hover effect */
 .exp-card,
+.opp-card,
 .project-card,
 .edu-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .exp-card:hover,
+.opp-card:hover,
 .project-card:hover,
 .edu-card:hover {
   transform: translateY(-5px);
