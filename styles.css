@@ -21,140 +21,126 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   background: #2d5016;
   font-family: var(--pixel-font);
   font-size: 10px;
   color: var(--text-dark);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
 
+/* Full-screen wrapper: scale game to fill viewport while keeping 640×480 aspect ratio */
+.game-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2d5016;
+}
+
 .game-container {
   position: relative;
-  width: 100%;
-  max-width: 640px;
+  width: 640px;
   height: 480px;
+  flex-shrink: 0;
+  transform: scale(min(100vw / 640, 100vh / 480));
+  transform-origin: center center;
   border: 4px solid var(--dialog-border);
   box-shadow: inset 0 0 0 4px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.5);
   overflow: hidden;
 }
 
-/* Lab room */
+/* Lab room - Professor Oak's lab background */
 .lab-room {
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--lab-wall);
+  background: #6b6b6b center center no-repeat;
+  background-image: url('assets/lab-background.png');
+  background-size: cover;
+  background-position: center;
 }
 
-/* Floor - checkerboard tiles */
-.lab-floor {
+/* Pokéballs on the table - smaller sprites, transparent background where possible */
+.pokeball {
+  width: 26px;
+  height: 26px;
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 320px;
-  background-color: var(--lab-floor);
-  background-image:
-    linear-gradient(45deg, var(--lab-floor-alt) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--lab-floor-alt) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--lab-floor-alt) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--lab-floor-alt) 75%);
-  background-size: 32px 32px;
-  background-position: 0 0, 0 16px, 16px -16px, -16px 0;
-  background-repeat: repeat;
-}
-
-/* Table */
-.lab-table {
-  position: absolute;
-  bottom: 140px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 280px;
-  height: 48px;
-  background: var(--lab-table);
-  border: 4px solid #3d2914;
-  border-radius: 4px;
+  cursor: pointer;
+  overflow: visible;
+  z-index: 5;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
-}
-
-/* Pokéballs */
-.pokeball {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  flex-shrink: 0;
-  border: 3px solid #1a1a1a;
-  overflow: hidden;
-  transition: transform 0.15s ease;
 }
 
 .pokeball:hover {
   transform: scale(1.1);
 }
 
-.pokeball-top {
+.pokeball-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: var(--pokeball-red);
+  inset: 0;
+  pointer-events: none;
 }
 
-.pokeball-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: var(--pokeball-white);
+/* Idle: all balls show pokeball closed (f1) */
+.pokeball-img--f1,
+.pokeball-img--f2,
+.pokeball-img--f3 { opacity: 0; }
+
+.pokeball .pokeball-img--f1 { opacity: 1; }
+.pokeball--open .pokeball-img--f1 { opacity: 0; } /* overridden by animation when open */
+
+/* When opening: animate f1 → f2 → f3 (closed → ultraball-closed → open) */
+.pokeball--open .pokeball-img--f1 {
+  animation: pokeball-f1 0.6s ease-in-out forwards;
+}
+.pokeball--open .pokeball-img--f2 {
+  animation: pokeball-f2 0.6s ease-in-out forwards;
+}
+.pokeball--open .pokeball-img--f3 {
+  animation: pokeball-f3 0.6s ease-in-out forwards;
 }
 
-.pokeball-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #fff;
-  border: 3px solid #1a1a1a;
-  box-shadow: 0 0 0 2px #333;
+@keyframes pokeball-f1 {
+  0%, 33% { opacity: 1; }
+  33.01%, 100% { opacity: 0; }
+}
+@keyframes pokeball-f2 {
+  0%, 33% { opacity: 0; }
+  33%, 66% { opacity: 1; }
+  66.01%, 100% { opacity: 0; }
+}
+@keyframes pokeball-f3 {
+  0%, 66% { opacity: 0; }
+  66%, 100% { opacity: 1; }
 }
 
-/* Shelves */
-.lab-shelf {
-  position: absolute;
-  bottom: 200px;
-  width: 80px;
-  height: 60px;
-  background: var(--shelf-color);
-  border: 4px solid #3d2914;
-  border-radius: 4px;
-  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+/* Positions on the right-side green table (smaller sprites, adjusted for 26px size) */
+.pokeball-1 {
+  left: 416px;
+  bottom: 308px;
 }
 
-.lab-shelf-left {
-  left: 40px;
+.pokeball-2 {
+  left: 451px;
+  bottom: 308px;
 }
 
-.lab-shelf-right {
-  right: 40px;
+.pokeball-3 {
+  left: 486px;
+  bottom: 308px;
 }
 
 /* Player character - position set by JS (starts bottom center) */
@@ -313,9 +299,15 @@ body {
   margin-bottom: 12px;
 }
 
-/* Controls hint */
+/* Controls hint - fixed at bottom of viewport */
 .controls-hint {
-  margin-top: 12px;
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
   font-size: 8px;
   color: rgba(255,255,255,0.8);
+  z-index: 40;
+  pointer-events: none;
 }

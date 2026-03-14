@@ -67,15 +67,25 @@
     return null;
   }
 
+  const POKEBALL_ANIMATION_MS = 600;
+
   function showDialog(pokeball) {
     currentPokeball = pokeball;
     optionPrimary.textContent = pokeball.primary;
     optionCancel.textContent = 'Cancel';
-    dialogOverlay.hidden = false;
+    pokeball.el.classList.add('pokeball--open');
+    setTimeout(function () {
+      if (currentPokeball === pokeball) {
+        dialogOverlay.hidden = false;
+      }
+    }, POKEBALL_ANIMATION_MS);
   }
 
   function hideDialog() {
     dialogOverlay.hidden = true;
+    if (currentPokeball) {
+      currentPokeball.el.classList.remove('pokeball--open');
+    }
     currentPokeball = null;
   }
 
@@ -85,8 +95,10 @@
       panelContent.innerHTML = '';
       panelContent.appendChild(template.content.cloneNode(true));
     }
+    if (currentPokeball) currentPokeball.el.classList.remove('pokeball--open');
+    currentPokeball = null;
+    dialogOverlay.hidden = true;
     panelOverlay.hidden = false;
-    hideDialog();
   }
 
   function closePanel() {
