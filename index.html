@@ -3,10 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Martin Tran | Portfolio</title>
+  <title>Martin Tran | Pokémon Lab Portfolio</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 
+  <div class="game-container">
+    <!-- Pokémon Lab room -->
+    <div class="lab-room" id="labRoom">
+      <!-- Floor tiles -->
+      <div class="lab-floor"></div>
+      <!-- Table with pokéballs -->
+      <div class="lab-table">
+        <div class="pokeball" id="pokeball1" data-option="projects" title="Press E when close">
+          <div class="pokeball-top"></div>
+          <div class="pokeball-bottom"></div>
+          <div class="pokeball-button"></div>
+        </div>
+        <div class="pokeball" id="pokeball2" data-option="experience" title="Press E when close">
+          <div class="pokeball-top"></div>
+          <div class="pokeball-bottom"></div>
+          <div class="pokeball-button"></div>
+        </div>
+        <div class="pokeball" id="pokeball3" data-option="resume" title="Press E when close">
+          <div class="pokeball-top"></div>
+          <div class="pokeball-bottom"></div>
+          <div class="pokeball-button"></div>
+        </div>
+      </div>
+      <!-- Lab furniture / shelves -->
+      <div class="lab-shelf lab-shelf-left"></div>
+      <div class="lab-shelf lab-shelf-right"></div>
+      <!-- Player character -->
+      <div class="player" id="player">
+        <div class="player-sprite"></div>
+      </div>
+    </div>
+
+    <!-- Pokémon-style dialog box -->
+    <div class="dialog-overlay" id="dialogOverlay" hidden>
+      <div class="dialog-box">
+        <p class="dialog-text" id="dialogText">Choose an option.</p>
+        <div class="dialog-options">
+          <button class="dialog-option option-primary" id="optionPrimary">Check Projects</button>
+          <button class="dialog-option option-cancel" id="optionCancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section panels (Projects, Experience, Resume) -->
+    <div class="panel-overlay" id="panelOverlay" hidden>
+      <div class="panel">
+        <button class="panel-close" id="panelClose" aria-label="Close">×</button>
+        <div class="panel-content" id="panelContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden content for each section -->
+  <template id="projectsContent">
+    <h2>Projects</h2>
+    <p>Your projects will go here. Add links and descriptions from your V1 reference when ready.</p>
+  </template>
+  <template id="experienceContent">
+    <h2>Work Experience</h2>
+    <p>Your experience will go here. Add roles and details from your V1 reference when ready.</p>
+  </template>
+  <template id="resumeContent">
+    <h2>Resume</h2>
+    <p>Link to your resume or embed PDF. Update with your resume from the V1 reference.</p>
+  </template>
+
+  <p class="controls-hint">WASD to move · E to interact with a Poké Ball</p>
+
+  <script src="game.js"></script>
 </body>
 </html>

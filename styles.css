@@ -1,1 +1,321 @@
-/* V2 - styles */
+/* Pokémon Lab Portfolio - V2 */
+
+:root {
+  --pixel-font: 'Press Start 2P', cursive;
+  --lab-wall: #8b7355;
+  --lab-floor: #6b5344;
+  --lab-floor-alt: #5a4a3d;
+  --lab-table: #4a3728;
+  --pokeball-red: #e53935;
+  --pokeball-white: #fafafa;
+  --dialog-bg: #f0e6d8;
+  --dialog-border: #3d2914;
+  --text-dark: #1a1a1a;
+  --player-color: #3366cc;
+  --shelf-color: #5d4e37;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #2d5016;
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  height: 480px;
+  border: 4px solid var(--dialog-border);
+  box-shadow: inset 0 0 0 4px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
+/* Lab room */
+.lab-room {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--lab-wall);
+}
+
+/* Floor - checkerboard tiles */
+.lab-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 320px;
+  background-color: var(--lab-floor);
+  background-image:
+    linear-gradient(45deg, var(--lab-floor-alt) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--lab-floor-alt) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--lab-floor-alt) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--lab-floor-alt) 75%);
+  background-size: 32px 32px;
+  background-position: 0 0, 0 16px, 16px -16px, -16px 0;
+  background-repeat: repeat;
+}
+
+/* Table */
+.lab-table {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 48px;
+  background: var(--lab-table);
+  border: 4px solid #3d2914;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+/* Pokéballs */
+.pokeball {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 3px solid #1a1a1a;
+  overflow: hidden;
+  transition: transform 0.15s ease;
+}
+
+.pokeball:hover {
+  transform: scale(1.1);
+}
+
+.pokeball-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: var(--pokeball-red);
+}
+
+.pokeball-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: var(--pokeball-white);
+}
+
+.pokeball-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  box-shadow: 0 0 0 2px #333;
+}
+
+/* Shelves */
+.lab-shelf {
+  position: absolute;
+  bottom: 200px;
+  width: 80px;
+  height: 60px;
+  background: var(--shelf-color);
+  border: 4px solid #3d2914;
+  border-radius: 4px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+.lab-shelf-left {
+  left: 40px;
+}
+
+.lab-shelf-right {
+  right: 40px;
+}
+
+/* Player character - position set by JS (starts bottom center) */
+.player {
+  position: absolute;
+  width: 24px;
+  height: 32px;
+  bottom: 16px;
+  left: 308px;
+  z-index: 10;
+  transition: none;
+}
+
+.player-sprite {
+  width: 100%;
+  height: 100%;
+  background: var(--player-color);
+  border: 3px solid #1a1a1a;
+  border-radius: 4px;
+  /* Simple face */
+  box-shadow:
+    inset 4px 6px 0 rgba(255,255,255,0.3),
+    inset 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.player.facing-up .player-sprite { transform: scaleY(1); }
+.player.facing-down .player-sprite { transform: scaleY(1); }
+.player.facing-left .player-sprite { transform: scaleX(-1); }
+.player.facing-right .player-sprite { transform: scaleX(1); }
+
+/* Dialog box - Pokémon style */
+.dialog-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.dialog-overlay[hidden] {
+  display: none;
+}
+
+.dialog-overlay:not([hidden]) {
+  pointer-events: auto;
+}
+
+.dialog-box {
+  width: 100%;
+  background: var(--dialog-bg);
+  border: 4px solid var(--dialog-border);
+  border-radius: 0;
+  padding: 16px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.4), 0 4px 0 rgba(0,0,0,0.3);
+}
+
+.dialog-text {
+  margin: 0 0 12px 0;
+  font-size: 8px;
+  line-height: 1.8;
+  color: var(--text-dark);
+}
+
+.dialog-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dialog-option {
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  padding: 8px 12px;
+  border: 3px solid var(--dialog-border);
+  border-radius: 0;
+  cursor: pointer;
+  background: #fff;
+  color: var(--text-dark);
+  transition: background 0.15s, color 0.15s;
+}
+
+.dialog-option:hover {
+  background: var(--dialog-border);
+  color: var(--dialog-bg);
+}
+
+.option-primary {
+  background: #e8d4b8;
+}
+
+/* Panel overlay for Projects / Experience / Resume */
+.panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.panel-overlay[hidden] {
+  display: none;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90%;
+  overflow: auto;
+  background: var(--dialog-bg);
+  border: 4px solid var(--dialog-border);
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.panel-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  line-height: 1;
+  font-family: var(--pixel-font);
+  border: 3px solid var(--dialog-border);
+  background: #fff;
+  cursor: pointer;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.panel-close:hover {
+  background: var(--dialog-border);
+  color: var(--dialog-bg);
+}
+
+.panel-content {
+  font-size: 8px;
+  line-height: 1.8;
+  padding-top: 8px;
+}
+
+.panel-content h2 {
+  font-size: 10px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* Controls hint */
+.controls-hint {
+  margin-top: 12px;
+  font-size: 8px;
+  color: rgba(255,255,255,0.8);
+}
