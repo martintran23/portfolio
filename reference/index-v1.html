@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martin Tran | Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"><a href="#">martin</a></div>
+
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="assets/resume.pdf" target="_blank">resume</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" style="background-image: url('assets/background.jpeg');">
+    <div class="hero-overlay">
+      <h1>hi i'm martin<br>welcome to my portfolio</h1>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <div class="section-content">
+      <h2>About Me</h2>
+      <div class="about-content">
+        <img src="assets/profile.png" alt="Martin profile photo" class="profile-pic">
+        <p>Hi, I'm Martin - a student, software engineer, developer, and more. I'm currently an undergraduate at Cal State University of Fullerton, pursuing a B.S. in Computer Science with a specialization in Cybersecurity. Outside of academics, I enjoy fish keeping, gaming, and weight lifting. I'm also a huge fan of the Jurassic Park and Jurassic World movies. My passion lies in building solutions that blend creativity with security. I'm always eager to learn new technologies that push my skills further and gaining any valuable insight!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="experience">
+    <div class="section-content">
+      <h2>Experience</h2>
+
+      <div class="opp-card">
+        <h3>Open to New Opportunities!</h3>
+        <p class="date">Start Date: ASAP</p>
+        <p>Roles Interested In:</p>
+        <ul>
+          <li>Software Engineering</li>
+          <li>Backend Development</li>
+          <li>Full-Stack Development</li>
+          <li>AI/ML Engineering</li>
+          <li>Product Management</li>
+        </ul>
+      </div>
+
+      <!--
+      <div class="exp-card">
+        <h3>H15DEN</h3>
+        <p>App Tester</p>
+        <p class="date">November 2025 - Present</p>
+        <ul>
+          <li> </li>
+        </ul>
+      </div>
+      -->
+
+      <div class="exp-card">
+        <h3>OpenQQuantify</h3>
+        <p>Software Development Intern</p>
+        <p class="date">May 2025 - October 2025</p>
+        <ul>
+          <li>Developed an AI health assistant chatbot using LLMs (Hugging Face) for semantic search and FAQ generation.</li>
+          <li>Built a Python ETL pipeline to transform FDA drug data from nested JSON to clean, structured CSVs.</li>
+          <li>Designed a responsive frontend (HTML/CSS/JS) featuring real-time chat UI and theme toggling to improve user accessibility and engagement.</li>
+          <li>Automated 3D asset acquisition via public APIs with license filtering, converting assets to optimized glTF/GLB format and integrating into a Three.js interface for interactive visualization.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card">
+        <h3>Product Manager Accelerator</h3>
+        <p>AI Engineer</p>
+        <p class="date">June 2025 - September 2025</p>
+        <ul>
+          <li>Designed and implemented the journal entries feature, creating MongoDB schemas, database models, and FastAPI endpoints to securely handle journaling data.</li>
+          <li>Extended backend architecture to support chat history storage and future scalability.</li>
+          <li>Collaborated on branch-based Git workflows, maintaining separate dev/testing branches and managing schema/database updates for new features.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="projects">
+    <div class="section-content">
+      <h2>Projects</h2>
+
+      <div class="project-card">
+        <img src="assets/project3.png" alt="Project 3 image preview" class="project-pic">
+        <h3>Pairnrd</h3>
+        <a href="https://www.linkedin.com/company/pairnrd" target="_blank">View LinkedIn Page</a>
+        <p class="date">June 2025 - Present</p>
+        <ul>
+          <li>Work in progress, follow LinkedIn page for updates!</li>
+        </ul>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/project2.png" alt="Project 2 image preview" class="project-pic">
+        <h3>getweather</h3>
+        <a href="https://getweather-psi.vercel.app" target="_blank">View on Vercel</a>
+        <p class="date">May 2025 - May 2025</p>
+        <ul>
+          <li>Developed a full-stack weather application providing real-time weather data via search and geolocation.</li>
+          <li>Built with Flask (Python) for backend APIs and TypeScript, HTML, and CSS for the frontend, deployed on Vercel (frontend) and Render (backend).</li>
+          <li>Utilized MongoDB Atlas for cloud-based data storage, enabling users to save, update, and delete weather entries.</li>
+          <li>Integrated Retrieval-Augmented Generation (RAG) with RESTful Flask APIs to combine live weather API data and stored historical queries, delivering enhanced weather insights across devices.</li>
+        </ul>
+      </div>
+
+      <div class="project-card">
+        <img src="assets/project1.png" alt="Project 1 image preview" class="project-pic">
+        <h3>Hermit</h3>
+        <a href="https://github.com/martintran23/hermit2" target="_blank">View on Github</a>
+        <p class="date">April 2025 - May 2025</p>
+        <ul>
+          <li>Developed a full-stack property management platform enabling property search, listing, user authentication, reviews, and integrated payment functionality.</li>
+          <li>Built with Flask (Python) for backend APIs, HTML/CSS/JavaScript for the frontend, and MongoDB for data storage.</li>
+          <li>Integrated the RapidAPI Real Estate API to provide real-time property data and enhance user experience.</li>
+          <li>Implemented unit testing with Python's unittest framework, achieving 95% code coverage across 40+ tests to ensure reliability and maintainability.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="education">
+    <div class="section-content">
+      <h2>Education</h2>
+
+      <div class="edu-card">
+        <h3>California State University, Fullerton</h3>
+        <p>B.S. in Computer Science w/ Specialization in Cybersecurity</p>
+        <p class="date">Aug 2023 - Jun 2027</p>
+        <ul>
+          <li>GPA: 3.71 | Dean's Honor List</li>
+        </ul>
+      </div>
+
+      <div class="edu-card">
+        <h3>La Quinta High School</h3>
+        <p>High School Diploma</p>
+        <p class="date">Aug 2019 - Jun 2023</p>
+        <ul>
+          <li>GPA: 4.23 | Principals Honor Roll, AP Scholar Award, Seal of Biliteracy & Golden State Seal Merit Diploma</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="skills">
+    <div class="section-content">
+      <h2>Skills</h2>
+      <div class="skill-grid">
+
+        <div class="skill-card">
+          <h3>Languages</h3>
+          <div class="skill-tags">
+            <span>Python</span>
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>C++</span>
+            <span>Java</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Frameworks</h3>
+          <div class="skill-tags">
+            <span>Flask</span>
+            <span>FastAPI</span>
+            <span>Bootstrap</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Databases</h3>
+          <div class="skill-tags">
+            <span>MongoDB</span>
+            <span>PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Developer Tools</h3>
+          <div class="skill-tags">
+            <span>VS Code</span>
+            <span>GitHub</span>
+            <span>Postman</span>
+            <span>Vercel</span>
+            <span>Render</span>
+            <span>Figma</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Learning</h3>
+          <div class="skill-tags">
+            <span>Kotlin</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© Martin Tran 2025. All rights reserved.</p>
+    <div class="contact">
+      <a href="https://linkedin.com/in/23martintran" target="_blank"><img src="assets/linkedin.png" alt="LinkedIn"></a>
+      <a href="https://github.com/martintran23" target="_blank"><img src="assets/github.png" alt="GitHub"></a>
+      <a href="mailto:23martintran@gmail.com" target="_blank"><img src="assets/gmail.png" alt="Gmail"></a>
+    </div>
+  </footer>
+
+  <!-- JS -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wrap About text words in span for hover effect
+    const aboutParagraphs = document.querySelectorAll('.about-content p');
+    aboutParagraphs.forEach(p => {
+      const words = p.textContent.split(' ');
+      p.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
+    });
+
+    // Navbar hide on scroll
+    const navbar = document.querySelector('.navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', () => {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop) {
+        navbar.style.top = '-80px'; // adjust to navbar height
+      } else {
+        navbar.style.top = '0';
+      }
+      lastScrollTop = scrollTop;
+    });
+  });
+</script>
+
+</body>
+</html>
