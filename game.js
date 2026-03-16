@@ -62,6 +62,9 @@
     playerY = Math.max(0, Math.min(LAB_HEIGHT - PLAYER_HEIGHT, y));
     player.style.left = playerX + 'px';
     player.style.bottom = playerY + 'px';
+
+    // Debug: log player coordinates for tuning collision/blockers
+    console.log('player pos:', playerX, playerY);
   }
 
   function getPlayerCenter() {
@@ -73,6 +76,57 @@
 
   function distance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  // Rectangular "no-walk" zones in room coordinates (bottom/left origin).
+  const BLOCKERS = [
+    // Left bookshelf region (already tuned and "perfect")
+    // Top edge:    y ≈ 188.8
+    // Bottom edge: y ≈ 97.2
+    // Left edge:   x = 0 (left wall)
+    // Right edge:  x ≈ 245.2
+    {
+      left: 0,
+      bottom: 97.2,
+      width: 245.2,
+      height: 188.8 - 97.2
+    },
+    // Right bookshelf region based on your new measurements:
+    // Bottom edge: y ≈ 96.8
+    // Top edge:    y ≈ 189.2
+    // Left edge:   x ≈ 339.6
+    // Right edge:  x ≈ 576
+    {
+      left: 389.6,                 // moved 50px to the right from original 339.6
+      bottom: 96.8,                // raised bottom by another 5
+      width: LAB_WIDTH - 389.6,    // extend all the way to the right border (640)
+      height: 189.2 - 96.8
+    }
+  ];
+
+  function rectsIntersect(a, b) {
+    return !(
+      a.left + a.width <= b.left ||
+      a.left >= b.left + b.width ||
+      a.bottom + a.height <= b.bottom ||
+      a.bottom >= b.bottom + b.height
+    );
+  }
+
+  function isBlocked(nextX, nextY) {
+    // Use a smaller hitbox at the player's feet so hair/hat
+    // can overlap furniture without blocking movement.
+    const FOOT_HITBOX_HEIGHT = 10;
+    const playerRect = {
+      left: nextX + PLAYER_WIDTH * 0.25,
+      bottom: nextY,
+      width: PLAYER_WIDTH * 0.5,
+      height: FOOT_HITBOX_HEIGHT
+    };
+    for (const block of BLOCKERS) {
+      if (rectsIntersect(playerRect, block)) return true;
+    }
+    return false;
   }
 
   function updatePlayerSprite() {
@@ -191,7 +245,11 @@
         facing = dx < 0 ? 'left' : 'right';
       }
 
-      setPlayerPosition(playerX + dx, playerY + dy);
+      const nextX = playerX + dx;
+      const nextY = playerY + dy;
+      if (!isBlocked(nextX, nextY)) {
+        setPlayerPosition(nextX, nextY);
+      }
 
       // Advance animation frame based on time
       frameTimer += deltaMs;
