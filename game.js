@@ -123,6 +123,17 @@
       bottom: 366.4,
       width: 53.0,
       height: 392.2 - 366.4
+    },
+    // Poké Ball table area:
+    // Top edge:    y ≈ 338.4 (raised 2px)
+    // Bottom edge: y ≈ 265.0 (raised another 10px)
+    // Left edge:   x ≈ 386.2 (nudged 2px right)
+    // Right edge:  x ≈ 517.6 (increased another 2px)
+    {
+      left: 386.2,
+      bottom: 265.0,
+      width: 517.6 - 386.2,
+      height: 338.4 - 265.0
     }
   ];
 
