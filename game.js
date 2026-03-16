@@ -35,6 +35,7 @@
   let frameTimer = 0;
   let lastMoveTime = performance.now();
   let idleHintShown = false;
+  let lastSpritePath = '';
 
   const FRAME_INTERVAL_MS = 120;
   const SPRITES = {
@@ -253,7 +254,12 @@
   function updatePlayerSprite() {
     const frames = SPRITES[facing] || SPRITES.up;
     const framePath = frames[frameIndex] || frames[1];
-    playerSprite.style.backgroundImage = "url('" + framePath + "')";
+    // Only update the sprite when the actual frame image changes.
+    // This avoids unnecessary repaints that can cause flicker.
+    if (framePath !== lastSpritePath) {
+      lastSpritePath = framePath;
+      playerSprite.style.backgroundImage = "url('" + framePath + "')";
+    }
   }
 
   function getPokeballCenter(pokeballEl) {
