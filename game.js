@@ -3,13 +3,14 @@
 
   const LAB_WIDTH = 640;
   const LAB_HEIGHT = 480;
-  const PLAYER_WIDTH = 24;
-  const PLAYER_HEIGHT = 32;
+  const PLAYER_WIDTH = 64;
+  const PLAYER_HEIGHT = 80;
   const INTERACT_DISTANCE = 60;
-  const MOVE_SPEED = 4;
+  const MOVE_SPEED = 0.6;
 
   const labRoom = document.getElementById('labRoom');
   const player = document.getElementById('player');
+  const playerSprite = player.querySelector('.player-sprite');
   const dialogOverlay = document.getElementById('dialogOverlay');
   const dialogText = document.getElementById('dialogText');
   const optionPrimary = document.getElementById('optionPrimary');
@@ -28,6 +29,33 @@
   let playerY = 16;
   let keys = {};
   let currentPokeball = null;
+  let facing = 'up';
+  let frameIndex = 1; // 0,1,2 => 1,2,3
+  let frameTimer = 0;
+
+  const FRAME_INTERVAL_MS = 120;
+  const SPRITES = {
+    up: [
+      'assets/movingup1.png',
+      'assets/movingup2.png',
+      'assets/movingup3.png'
+    ],
+    down: [
+      'assets/movingdown1.png',
+      'assets/movingdown2.png',
+      'assets/movingdown3.png'
+    ],
+    left: [
+      'assets/movingleft1.png',
+      'assets/movingleft2.png',
+      'assets/movingleft3.png'
+    ],
+    right: [
+      'assets/movingright1.png',
+      'assets/movingright2.png',
+      'assets/movingright3.png'
+    ]
+  };
 
   function setPlayerPosition(x, y) {
     playerX = Math.max(0, Math.min(LAB_WIDTH - PLAYER_WIDTH, x));
@@ -45,6 +73,12 @@
 
   function distance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  function updatePlayerSprite() {
+    const frames = SPRITES[facing] || SPRITES.up;
+    const framePath = frames[frameIndex] || frames[1];
+    playerSprite.style.backgroundImage = "url('" + framePath + "')";
   }
 
   function getPokeballCenter(pokeballEl) {
@@ -137,7 +171,7 @@
     keys[e.key.toLowerCase()] = false;
   });
 
-  function update() {
+  function update(deltaMs) {
     if (!dialogOverlay.hidden || !panelOverlay.hidden) return;
 
     let dx = 0;
@@ -147,13 +181,46 @@
     if (keys['a']) dx -= MOVE_SPEED;
     if (keys['d']) dx += MOVE_SPEED;
 
-    if (dx !== 0 || dy !== 0) {
+    const isMoving = dx !== 0 || dy !== 0;
+
+    if (isMoving) {
+      // Determine facing based on movement direction
+      if (Math.abs(dy) >= Math.abs(dx)) {
+        facing = dy > 0 ? 'up' : 'down';
+      } else {
+        facing = dx < 0 ? 'left' : 'right';
+      }
+
       setPlayerPosition(playerX + dx, playerY + dy);
-      player.classList.toggle('facing-left', dx < 0);
-      player.classList.toggle('facing-right', dx > 0);
+
+      // Advance animation frame based on time
+      frameTimer += deltaMs;
+      if (frameTimer >= FRAME_INTERVAL_MS) {
+        frameTimer = 0;
+        frameIndex = (frameIndex + 1) % 3; // 0 → 1 → 2 → 0
+      }
+    } else {
+      // Not moving: use middle (stationary) frame
+      frameIndex = 1;
+      frameTimer = 0;
     }
+
+    updatePlayerSprite();
   }
 
   setPlayerPosition(playerX, playerY);
-  setInterval(update, 1000 / 60);
+  // Initial sprite: facing up, stationary (movingup2)
+  facing = 'up';
+  frameIndex = 1;
+  updatePlayerSprite();
+
+  let lastTimestamp = performance.now();
+  function gameLoop(timestamp) {
+    const deltaMs = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+    update(deltaMs);
+    requestAnimationFrame(gameLoop);
+  }
+
+  requestAnimationFrame(gameLoop);
 })();

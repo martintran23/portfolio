@@ -147,8 +147,8 @@ body {
 /* Player character - position set by JS (starts bottom center) */
 .player {
   position: absolute;
-  width: 24px;
-  height: 32px;
+  width: 64px;
+  height: 80px;
   bottom: 16px;
   left: 308px;
   z-index: 10;
@@ -158,19 +158,13 @@ body {
 .player-sprite {
   width: 100%;
   height: 100%;
-  background: var(--player-color);
-  border: 3px solid #1a1a1a;
-  border-radius: 4px;
-  /* Simple face */
-  box-shadow:
-    inset 4px 6px 0 rgba(255,255,255,0.3),
-    inset 2px 2px 0 rgba(0,0,0,0.2);
+  background-image: url('assets/movingup2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
-
-.player.facing-up .player-sprite { transform: scaleY(1); }
-.player.facing-down .player-sprite { transform: scaleY(1); }
-.player.facing-left .player-sprite { transform: scaleX(-1); }
-.player.facing-right .player-sprite { transform: scaleX(1); }
 
 /* Dialog box - Pokémon style */
 .dialog-overlay {
