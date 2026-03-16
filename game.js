@@ -94,13 +94,35 @@
     // Right bookshelf region based on your new measurements:
     // Bottom edge: y ≈ 96.8
     // Top edge:    y ≈ 189.2
-    // Left edge:   x ≈ 339.6
-    // Right edge:  x ≈ 576
+    // Left edge:   x ≈ 389.6
+    // Right edge:  room right border (LAB_WIDTH)
     {
-      left: 389.6,                 // moved 50px to the right from original 339.6
-      bottom: 96.8,                // raised bottom by another 5
-      width: LAB_WIDTH - 389.6,    // extend all the way to the right border (640)
+      left: 389.6,
+      bottom: 96.8,
+      width: LAB_WIDTH - 389.6,
       height: 189.2 - 96.8
+    },
+    // Generator area:
+    // Top edge:    y ≈ 366.4
+    // Bottom edge: y ≈ 255.4
+    // Left edge:   x = 0
+    // Right edge:  x ≈ 150.8
+    {
+      left: 0,
+      bottom: 255.4,
+      width: 150.8,
+      height: 366.4 - 255.4
+    },
+    // Small block above the generator (left side)
+    // Right edge: x ≈ 53.0
+    // Left edge:  x = 0
+    // Bottom:     y ≈ 366.4 (same as generator top)
+    // Top:        y ≈ 392.2
+    {
+      left: 0,
+      bottom: 366.4,
+      width: 53.0,
+      height: 392.2 - 366.4
     }
   ];
 
