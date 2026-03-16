@@ -33,6 +33,8 @@
   let facing = 'up';
   let frameIndex = 1; // 0,1,2 => 1,2,3
   let frameTimer = 0;
+  let lastMoveTime = performance.now();
+  let idleHintShown = false;
 
   const FRAME_INTERVAL_MS = 120;
   const SPRITES = {
@@ -66,6 +68,10 @@
 
     // Debug: log player coordinates for tuning collision/blockers
     console.log('player pos:', playerX, playerY);
+
+    // Update last movement time whenever the player position actually changes
+    lastMoveTime = performance.now();
+    idleHintShown = false;
   }
 
   function getPlayerCenter() {
@@ -497,6 +503,32 @@
   function gameLoop(timestamp) {
     const deltaMs = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
+
+    // Check for idle hint: if the player hasn't moved in 60 seconds
+    // and no dialog/panel is open, show a one-time textbox.
+    const now = performance.now();
+    if (
+      dialogOverlay.hidden &&
+      panelOverlay.hidden &&
+      !idleHintShown &&
+      now - lastMoveTime > 60000
+    ) {
+      idleHintShown = true;
+      currentPokeball = null;
+
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.textContent = 'Close';
+      dialogText.textContent = 'I hope I find a job soon...';
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        dialogOverlay.hidden = true;
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false;
+      };
+    }
+
     update(deltaMs);
     requestAnimationFrame(gameLoop);
   }
