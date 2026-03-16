@@ -67,8 +67,8 @@ body {
 
 /* Pokéballs on the table - smaller sprites, transparent background where possible */
 .pokeball {
-  width: 26px;
-  height: 26px;
+  width: 40px;
+  height: 40px;
   position: absolute;
   cursor: pointer;
   overflow: visible;
@@ -78,6 +78,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.3));
 }
 
 .pokeball:hover {
@@ -129,18 +130,18 @@ body {
 
 /* Positions on the right-side green table (smaller sprites, adjusted for 26px size) */
 .pokeball-1 {
-  left: 416px;
-  bottom: 308px;
+  left: 383px;
+  bottom: 299px;
 }
 
 .pokeball-2 {
-  left: 451px;
-  bottom: 308px;
+  left: 431px;
+  bottom: 299px;
 }
 
 .pokeball-3 {
-  left: 486px;
-  bottom: 308px;
+  left: 479px;
+  bottom: 299px;
 }
 
 /* Player character - position set by JS (starts bottom center) */
