@@ -14,6 +14,7 @@
   const dialogOverlay = document.getElementById('dialogOverlay');
   const dialogText = document.getElementById('dialogText');
   const optionPrimary = document.getElementById('optionPrimary');
+  const optionSecondary = document.getElementById('optionSecondary');
   const optionCancel = document.getElementById('optionCancel');
   const panelOverlay = document.getElementById('panelOverlay');
   const panelContent = document.getElementById('panelContent');
@@ -199,7 +200,13 @@
   function showDialog(pokeball) {
     currentPokeball = pokeball;
     optionPrimary.textContent = pokeball.primary;
-    optionCancel.textContent = 'Cancel';
+
+    if (pokeball.option === 'resume') {
+      optionSecondary.textContent = 'Download Resume';
+      optionSecondary.hidden = false;
+    } else {
+      optionSecondary.hidden = true;
+    }
     pokeball.el.classList.add('pokeball--open');
     setTimeout(function () {
       if (currentPokeball === pokeball) {
@@ -235,6 +242,18 @@
   optionPrimary.addEventListener('click', function () {
     if (!currentPokeball) return;
     openPanel(currentPokeball.option);
+  });
+
+  optionSecondary.addEventListener('click', function () {
+    if (!currentPokeball || currentPokeball.option !== 'resume') return;
+    // Force a download of the PDF using a temporary anchor
+    const link = document.createElement('a');
+    link.href = 'assets/resume.pdf';
+    link.download = 'Martin_Tran_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    hideDialog();
   });
 
   optionCancel.addEventListener('click', hideDialog);
