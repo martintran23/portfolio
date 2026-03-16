@@ -281,6 +281,11 @@
   function showDialog(pokeball) {
     currentPokeball = pokeball;
     optionPrimary.textContent = pokeball.primary;
+    // Reset dialog state so it doesn't reuse custom handlers/visibility
+    optionPrimary.onclick = null;      // use default listener for Poké Balls
+    optionCancel.hidden = false;
+    optionSecondary.hidden = true;
+    dialogText.textContent = 'Choose an option.'; // reset from any flavor text
 
     if (pokeball.option === 'resume') {
       optionSecondary.textContent = 'Download Resume';
@@ -302,6 +307,9 @@
       currentPokeball.el.classList.remove('pokeball--open');
     }
     currentPokeball = null;
+    // Restore default button state so the next dialog isn't affected
+    optionPrimary.onclick = null;
+    optionCancel.hidden = false;
   }
 
   function openPanel(sectionId) {
