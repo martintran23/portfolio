@@ -179,13 +179,19 @@
 
   function getClosestPokeball() {
     const center = getPlayerCenter();
-    for (const { el } of pokeballs) {
-      const ballCenter = getPokeballCenter(el);
-      if (distance(center, ballCenter) <= INTERACT_DISTANCE) {
-        return pokeballs.find(p => p.el === el);
+    let closest = null;
+    let closestDist = Infinity;
+
+    for (const pb of pokeballs) {
+      const ballCenter = getPokeballCenter(pb.el);
+      const d = distance(center, ballCenter);
+      if (d <= INTERACT_DISTANCE && d < closestDist) {
+        closestDist = d;
+        closest = pb;
       }
     }
-    return null;
+
+    return closest;
   }
 
   const POKEBALL_ANIMATION_MS = 600;
