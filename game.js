@@ -453,7 +453,9 @@
   });
 
   function update(deltaMs) {
-    if (!dialogOverlay.hidden || !panelOverlay.hidden) return;
+    // Freeze movement while any dialog/panel is open, or while a Poké Ball
+    // interaction is in progress (during its opening animation).
+    if (!dialogOverlay.hidden || !panelOverlay.hidden || currentPokeball) return;
 
     let dx = 0;
     let dy = 0;
