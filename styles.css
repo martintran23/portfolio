@@ -1,407 +1,316 @@
+/* Pokémon Lab Portfolio - V2 */
+
 :root {
-  --dark-green: #6B9080;
-  --muted-green: #A4C3B2;
-  --pale-teal: #CCE3DE;
-  --light-teal: #EAF4F4;
-  --almost-white: #F6FFF8;
-  --mystic-moss: #586f6b;
+  --pixel-font: 'Press Start 2P', cursive;
+  --lab-wall: #8b7355;
+  --lab-floor: #6b5344;
+  --lab-floor-alt: #5a4a3d;
+  --lab-table: #4a3728;
+  --pokeball-red: #e53935;
+  --pokeball-white: #fafafa;
+  --dialog-bg: #f0e6d8;
+  --dialog-border: #3d2914;
+  --text-dark: #1a1a1a;
+  --player-color: #3366cc;
+  --shelf-color: #5d4e37;
 }
 
-html {
-  scroll-behavior: smooth;
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: var(--almost-white);
-  color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Global section layout */
-section {
-  min-height: 100vh;
-  padding: 4rem 2rem;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-}
-
-/* Shared content container */
-.section-content {
-  max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* Headings inside the section-content */
-.section-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  text-align: left;
-}
-
-/* Logo */
-.logo a {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--dark-green);
-  padding: 1rem 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  transition: top 0.3s ease;
-}
-
-.navbar .logo {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar ul li a {
-  color: #F6FFF8;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.navbar ul li a:hover {
-  text-decoration: underline;
-}
-
-/* Hero */
-.hero {
   height: 100vh;
-  background-size: cover;
-  background-position: center;
-  position: relative;
+  width: 100vw;
+  overflow: hidden;
+  background: #2d5016;
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  color: var(--text-dark);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
-.hero-overlay {
-  background-color: rgba(107, 144, 128, 0.6);
-  height: 100%;
+/* Full-screen wrapper: scale game to fill viewport while keeping 640×480 aspect ratio */
+.game-wrapper {
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #2d5016;
 }
 
-.hero-overlay h1 {
-  color: #F6FFF8;
-  font-size: 2rem;
-  text-align: left;
-  max-width: 1000px;
-  margin: 0 1.5rem;
+.game-container {
+  position: relative;
+  width: 640px;
+  height: 480px;
+  flex-shrink: 0;
+  transform: scale(min(100vw / 640, 100vh / 480));
+  transform-origin: center center;
+  border: 4px solid var(--dialog-border);
+  box-shadow: inset 0 0 0 4px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.5);
+  overflow: hidden;
 }
 
-/* Reading hover effect for About page words */
-.about-content p span {
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+/* Lab room - Professor Oak's lab background */
+.lab-room {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #6b6b6b center center no-repeat;
+  background-image: url('assets/lab-background.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Pokéballs on the table - smaller sprites, transparent background where possible */
+.pokeball {
+  width: 40px;
+  height: 40px;
+  position: absolute;
   cursor: pointer;
-  display: inline-block;
-  padding: 0 2px;
-  border-radius: 4px;
+  overflow: visible;
+  z-index: 5;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.3));
 }
 
-.about-content p span:hover {
-  background-color: var(--dark-green);
-  color: var(--almost-white);
+.pokeball:hover {
   transform: scale(1.1);
 }
 
-/* About */
-@media (max-width: 768px) {
-  .about-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .about-content p {
-    text-align: left;
-  }
-
-  .profile-pic {
-    margin: 0 auto;
-  }
-
-  .section-content {
-    padding: 0 1rem;
-  }
-
-  .hero-overlay h1 {
-    text-align: center;
-    font-size: 1.8rem;
-  }
-}
-
-/* About section */
-.about {
-  background-color: var(--light-teal);
-}
-
-.about h2 {
-  color: #6B9080;
-}
-
-.about-content {
-  color: #6B9080;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: center;
+.pokeball-img {
   width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.profile-pic {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
+/* Idle: all balls show pokeball closed (f1) */
+.pokeball-img--f1,
+.pokeball-img--f2,
+.pokeball-img--f3 { opacity: 0; }
+
+.pokeball .pokeball-img--f1 { opacity: 1; }
+.pokeball--open .pokeball-img--f1 { opacity: 0; } /* overridden by animation when open */
+
+/* When opening: animate f1 → f2 → f3 (closed → ultraball-closed → open) */
+.pokeball--open .pokeball-img--f1 {
+  animation: pokeball-f1 0.6s ease-in-out forwards;
+}
+.pokeball--open .pokeball-img--f2 {
+  animation: pokeball-f2 0.6s ease-in-out forwards;
+}
+.pokeball--open .pokeball-img--f3 {
+  animation: pokeball-f3 0.6s ease-in-out forwards;
 }
 
-.about-content p {
-  color: #6B9080;
-  flex: 1;
-  font-size: 1.1rem;
+@keyframes pokeball-f1 {
+  0%, 33% { opacity: 1; }
+  33.01%, 100% { opacity: 0; }
+}
+@keyframes pokeball-f2 {
+  0%, 33% { opacity: 0; }
+  33%, 66% { opacity: 1; }
+  66.01%, 100% { opacity: 0; }
+}
+@keyframes pokeball-f3 {
+  0%, 66% { opacity: 0; }
+  66%, 100% { opacity: 1; }
+}
+
+/* Positions on the right-side green table (smaller sprites, adjusted for 26px size) */
+.pokeball-1 {
+  left: 383px;
+  bottom: 299px;
+}
+
+.pokeball-2 {
+  left: 431px;
+  bottom: 299px;
+}
+
+.pokeball-3 {
+  left: 479px;
+  bottom: 299px;
+}
+
+/* Player character - position set by JS (starts bottom center) */
+.player {
+  position: absolute;
+  width: 64px;
+  height: 80px;
+  bottom: 16px;
+  left: 308px;
+  z-index: 10;
+  transition: none;
+}
+
+.player-sprite {
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/movingup2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Dialog box - Pokémon style */
+.dialog-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.dialog-overlay[hidden] {
+  display: none;
+}
+
+.dialog-overlay:not([hidden]) {
+  pointer-events: auto;
+}
+
+.dialog-box {
+  width: 100%;
+  /* Pokémon-style message box with blue border and white background */
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(#4a6fdc, #9ab5ff, #25408f) border-box;
+  border: 4px solid transparent;
+  border-radius: 0;
+  padding: 12px 18px;
+  box-shadow:
+    0 4px 0 rgba(0,0,0,0.4);
+}
+
+.dialog-text {
+  margin: 0 0 12px 0;
+  font-size: 8px;
   line-height: 1.8;
+  color: var(--text-dark);
 }
 
-/* Experience */
-.experience {
-  background-color: var(--pale-teal);
-}
-
-.experience h2 {
-  color: #6B9080;
-}
-
-.exp-card {
-  background-color: var(--dark-green);
-  color: #F6FFF8;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  width: 100%;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-.opp-card {
-  background-color: var(--mystic-moss);
-  color: #F6FFF8;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  width: 100%;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-.date {
-  font-size: 0.9rem;
-  color: #ddd;
-}
-
-/* Projects */
-.projects {
-  background-color: var(--dark-green);
-}
-
-.projects h2 {
-  color: #EAF4F4;
-}
-
-.projects a {
-  color: #6B9080;
-  transition: color 0.3s ease;
-}
-
-.projects a:hover {
-  color: #06402B;
-}
-
-.project-card {
-  background-color: var(--light-teal);
-  color: #6B9080;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  width: 100%;
-  border-radius: 10px;
-  box-sizing: border-box;
-  display: block;
-}
-
-.project-pic {
-  width: 100%;
-  height: auto;
-  max-height: 360px;
-  object-fit: cover;
-  border-radius: 10px;
-  display: block;
-}
-
-.projects .date {
-  font-size: 0.9rem;
-  color: #A9A9A9;
-}
-
-/* Education */
-.education {
-  background-color: var(--light-teal);
-}
-
-.education h2 {
-  color: #6B9080;
-}
-
-.edu-card {
-  background-color: var(--dark-green);
-  color: #F6FFF8;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  width: 100%;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-/* Skills */
-.skills {
-  background-color: var(--muted-green);
-  padding: 4rem 2rem;
-}
-
-.skills h2 {
-  color: #6B9080;
-}
-
-.skill-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  max-width: 1000px;
-  margin: auto;
-}
-
-.skill-card {
-  background-color: #F6FFF8;
-  color: #6B9080;
-  padding: 1.5rem;
-  border-radius: 12px;
-  text-align: left;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.skill-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-}
-
-.skill-card h3 {
-  margin-bottom: 1rem;
-  color: var(--dark-green);
-}
-
-.skill-tags span {
-  display: inline-block;
-  background: var(--light-teal);
-  color: var(--dark-green);
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin: 0.3rem;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.skill-tags span:hover {
-  background: var(--pale-teal);
-  transform: scale(1.05);
-}
-
-/* Skills grid for mobile */
-@media (max-width: 480px) {
-  .skill-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .skill-card {
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-
-  section {
-    padding: 2rem 1rem;
-  }
-
-  .exp-card, .opp-card,.project-card, .edu-card {
-    padding: 1rem;
-  }
-}
-
-/* Shared card hover effect */
-.exp-card,
-.opp-card,
-.project-card,
-.edu-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.exp-card:hover,
-.opp-card:hover,
-.project-card:hover,
-.edu-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-}
-
-/* Footer */
-footer {
-  background-color: var(--dark-green);
-  color: #F6FFF8;
-  text-align: center;
-  padding: 1rem 2rem;
+.dialog-options {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-footer p {
-  margin: 0;
-  flex: 1;
-  text-align: left;
+.dialog-option {
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  padding: 8px 12px;
+  /* Match blue-bordered, white-background style */
+  border: 3px solid #7fa8ff; /* lighter pastel blue */
+  border-radius: 0;
+  cursor: pointer;
+  background: #f2f2f2; /* slightly darker than pure white */
+  color: #000000; /* make inside text fully black on white */
+  transition: background 0.15s, color 0.15s;
 }
 
-footer .contact {
+.dialog-option:hover {
+  background: #7fa8ff;
+  color: #ffffff;
+}
+
+.option-primary {
+  background: #ffffff; /* keep primary button white as well */
+}
+
+/* Panel overlay for Projects / Experience / Resume */
+.panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 30;
   display: flex;
-  gap: 0.5rem;
-  text-align: right;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 }
 
-footer .contact img {
-  width: 36px;
-  height: auto;
-  margin: 0 0.5rem;
+.panel-overlay[hidden] {
+  display: none;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90%;
+  overflow: auto;
+  /* Match dialog box styling for consistency (blue border, white background) */
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(#4a6fdc, #9ab5ff, #25408f) border-box;
+  border: 4px solid transparent;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+}
+
+.panel-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  line-height: 1;
+  font-family: var(--pixel-font);
+  border: 3px solid var(--dialog-border);
+  background: #fff;
+  cursor: pointer;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.panel-close:hover {
+  background: var(--dialog-border);
+  color: var(--dialog-bg);
+}
+
+.panel-content {
+  font-size: 8px;
+  line-height: 1.8;
+  padding-top: 8px;
+}
+
+.panel-content h2 {
+  font-size: 10px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* Controls hint - fixed at bottom of viewport */
+.controls-hint {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 8px;
+  color: rgba(255,255,255,0.8);
+  z-index: 40;
+  pointer-events: none;
 }
