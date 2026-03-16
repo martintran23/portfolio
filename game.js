@@ -75,6 +75,87 @@
     };
   }
 
+  // Helper to check if the player is standing in front of the left bookshelf
+  function isAtLeftBookshelf() {
+    // Use the player's feet position (same coordinate system as BLOCKERS)
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    // Front row in front of left bookshelf:
+    // Loosened bounds so it's easier to trigger when you're
+    // pressed up against the shelves.
+    const FRONT_MIN_X = 0;
+    const FRONT_MAX_X = 260;
+    const FRONT_MIN_Y = 80;
+    const FRONT_MAX_Y = 140;
+
+    return (
+      footX >= FRONT_MIN_X &&
+      footX <= FRONT_MAX_X &&
+      footY >= FRONT_MIN_Y &&
+      footY <= FRONT_MAX_Y
+    );
+  }
+
+  // Helper to check if the player is standing in front of the right bookshelf
+  function isAtRightBookshelf() {
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    // Front row in front of right bookshelf: tuned to right blocker region
+    const FRONT_MIN_X = 380;
+    const FRONT_MAX_X = LAB_WIDTH;
+    const FRONT_MIN_Y = 80;
+    const FRONT_MAX_Y = 140;
+
+    return (
+      footX >= FRONT_MIN_X &&
+      footX <= FRONT_MAX_X &&
+      footY >= FRONT_MIN_Y &&
+      footY <= FRONT_MAX_Y
+    );
+  }
+
+  // Helper to check if the player is standing in front of the generator (egg incubator)
+  function isAtGenerator() {
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    // Front row in front of the generator area
+    // Based loosely on the generator BLOCKER (x 0–150.8, y 255.4–366.4)
+    const FRONT_MIN_X = 40;
+    const FRONT_MAX_X = 160;
+    const FRONT_MIN_Y = 220;
+    const FRONT_MAX_Y = 260;
+
+    return (
+      footX >= FRONT_MIN_X &&
+      footX <= FRONT_MAX_X &&
+      footY >= FRONT_MIN_Y &&
+      footY <= FRONT_MAX_Y
+    );
+  }
+
+  // Helper to check if the player is standing at the top PC area
+  function isAtPc() {
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    // Centered around player pos: 109.2, 400 with generous leniency
+    // so it's easy to trigger when up against the top counter.
+    const MIN_X = 110;  // narrowed another 10px from the left
+    const MAX_X = 140;
+    const MIN_Y = 360;  // slightly below and above reported Y
+    const MAX_Y = 430;
+
+    return (
+      footX >= MIN_X &&
+      footX <= MAX_X &&
+      footY >= MIN_Y &&
+      footY <= MAX_Y
+    );
+  }
+
   function distance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
   }
@@ -95,12 +176,12 @@
     // Right bookshelf region based on your new measurements:
     // Bottom edge: y ≈ 96.8
     // Top edge:    y ≈ 189.2
-    // Left edge:   x ≈ 389.6
+    // Left edge:   x ≈ 384.6
     // Right edge:  room right border (LAB_WIDTH)
     {
-      left: 389.6,
+      left: 384.6,
       bottom: 96.8,
-      width: LAB_WIDTH - 389.6,
+      width: LAB_WIDTH - 384.6,
       height: 189.2 - 96.8
     },
     // Generator area:
@@ -270,7 +351,81 @@
       e.preventDefault();
       if (dialogOverlay.hidden) {
         const closest = getClosestPokeball();
-        if (closest) showDialog(closest);
+        if (closest) {
+          showDialog(closest);
+        } else if (isAtLeftBookshelf()) {
+          // Flavor text when examining the left bookshelf
+          currentPokeball = null;
+
+          // Only show a single Close button for this interaction
+          optionSecondary.hidden = true;
+          optionCancel.hidden = true;
+          optionPrimary.textContent = 'Close';
+          dialogText.textContent =
+            'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!';
+          dialogOverlay.hidden = false;
+
+          // Make the primary button just close the dialog in this mode
+          optionPrimary.onclick = function () {
+            dialogOverlay.hidden = true;
+            optionPrimary.onclick = null;
+            optionCancel.hidden = false; // restore cancel visibility for next dialogs
+          };
+        } else if (isAtPc()) {
+          // PC interaction: two-step message
+          currentPokeball = null;
+
+          optionSecondary.hidden = true;
+          optionCancel.hidden = true;
+          optionPrimary.textContent = 'Next';
+          dialogText.textContent = 'Booting up the PC...';
+          dialogOverlay.hidden = false;
+
+          optionPrimary.onclick = function () {
+            dialogText.textContent =
+              'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.';
+            optionPrimary.textContent = 'Close';
+
+            optionPrimary.onclick = function () {
+              dialogOverlay.hidden = true;
+              optionPrimary.onclick = null;
+              optionCancel.hidden = false;
+            };
+          };
+        } else if (isAtRightBookshelf()) {
+          // Flavor text when examining the right bookshelf
+          currentPokeball = null;
+
+          // Only show a single Close button for this interaction
+          optionSecondary.hidden = true;
+          optionCancel.hidden = true;
+          optionPrimary.textContent = 'Close';
+          dialogText.textContent =
+            'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.';
+          dialogOverlay.hidden = false;
+
+          optionPrimary.onclick = function () {
+            dialogOverlay.hidden = true;
+            optionPrimary.onclick = null;
+            optionCancel.hidden = false;
+          };
+        } else if (isAtGenerator()) {
+          // Flavor text when examining the generator (egg incubator)
+          currentPokeball = null;
+
+          optionSecondary.hidden = true;
+          optionCancel.hidden = true;
+          optionPrimary.textContent = 'Close';
+          dialogText.textContent =
+            'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.';
+          dialogOverlay.hidden = false;
+
+          optionPrimary.onclick = function () {
+            dialogOverlay.hidden = true;
+            optionPrimary.onclick = null;
+            optionCancel.hidden = false;
+          };
+        }
       }
     }
     if (e.key === 'Escape') {
