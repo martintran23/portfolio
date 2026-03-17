@@ -151,8 +151,8 @@
     // Centered around player pos: 109.2, 400 with generous leniency
     // so it's easy to trigger when up against the top counter.
     const MIN_X = 110;  // narrowed another 10px from the left
-    const MAX_X = 140;
-    const MIN_Y = 360;  // slightly below and above reported Y
+    const MAX_X = 170;  // extended another 10px further to the right
+    const MIN_Y = 385;  // raised bottom edge by another 5
     const MAX_Y = 430;
 
     return (
