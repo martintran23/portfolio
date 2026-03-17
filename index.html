@@ -11,6 +11,27 @@
 </head>
 <body>
 
+  <!-- Intro / boot sequence before entering the lab -->
+  <div class="intro-overlay" id="introOverlay">
+    <!-- Screen 1: Emulating -->
+    <div class="intro-screen" id="introEmu">
+      <p class="intro-small"><span id="introEmuText"></span></p>
+      <h1 class="intro-title">Martin Tran</h1>
+      <p class="intro-subtitle">Pokémon Lab Portfolio</p>
+      <p class="intro-continue">Click anywhere to continue</p>
+      <!-- Rotating loading Poké Ball in bottom-right -->
+      <img src="assets/Loading.png" alt="" class="intro-loading">
+    </div>
+
+    <!-- Screen 2: Controls -->
+    <div class="intro-screen intro-screen--controls" id="introControls" hidden>
+      <h2 class="intro-title">Controls</h2>
+      <p class="intro-line">W / A / S / D – Move</p>
+      <p class="intro-line">E – Interact with Poké Balls and objects</p>
+      <p class="intro-continue">Click anywhere to begin</p>
+    </div>
+  </div>
+
   <div class="game-wrapper">
   <div class="game-container">
     <!-- Pokémon Lab room - Oak's lab background from FireRed/LeafGreen style -->
