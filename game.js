@@ -34,7 +34,11 @@
   let playerY = 16;
   let keys = {};
   let currentPokeball = null;
-  let introStage = 0; // 0 = emulating, 1 = controls, 2 = finished
+  // Intro stages:
+  // 0 = Emulating screen
+  // 1 = Controls screen
+  // 2 = Finished (lab active)
+  let introStage = 0;
   let inputEnabled = false;
   let facing = 'up';
   let frameIndex = 1; // 0,1,2 => 1,2,3
@@ -378,7 +382,7 @@
     }
 
     if (introStage === 0) {
-      // Emulating -> Controls
+      // Emulating -> Controls screen
       if (introEmu) introEmu.hidden = true;
       if (introControls) introControls.hidden = false;
       introStage = 1;

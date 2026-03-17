@@ -87,6 +87,25 @@ body {
   margin-top: 20px;
   opacity: 0.75;
 }
+.intro-loading {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: intro-spin 3s linear infinite;
+}
+
+.intro-loading-center {
+  display: none; /* no longer used after reverting transition */
+}
+
+@keyframes intro-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
 /* Full-screen wrapper: scale game to fill viewport while keeping 640×480 aspect ratio */
 .game-wrapper {
