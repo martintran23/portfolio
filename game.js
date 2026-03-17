@@ -382,10 +382,26 @@
     }
 
     if (introStage === 0) {
-      // Emulating -> Controls screen
+      // Emulating -> effect -> Controls screen
       if (introEmu) introEmu.hidden = true;
-      if (introControls) introControls.hidden = false;
-      introStage = 1;
+
+      // Add centered expanding Poké Ball effect
+      const effect = document.createElement('img');
+      effect.src = 'assets/Loading.png';
+      effect.alt = '';
+      effect.className = 'intro-effect';
+      introOverlay.appendChild(effect);
+
+      setTimeout(function () {
+        // Remove effect and show controls, as long as intro not already finished.
+        if (effect.parentNode) {
+          effect.parentNode.removeChild(effect);
+        }
+        if (!introOverlay.hidden && introControls) {
+          introControls.hidden = false;
+          introStage = 1;
+        }
+      }, 1000); // effect duration (1s), < 3s total
     } else if (introStage === 1) {
       // Controls -> game
       introOverlay.hidden = true;

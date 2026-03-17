@@ -99,12 +99,31 @@ body {
 }
 
 .intro-loading-center {
-  display: none; /* no longer used after reverting transition */
+  display: none; /* not used in new transition approach */
 }
 
 @keyframes intro-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.intro-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640px;
+  height: 640px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: intro-expand-fade 1s ease-out forwards;
+}
+
+@keyframes intro-expand-fade {
+  0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+  25%  { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+  60%  { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
 }
 
 /* Full-screen wrapper: scale game to fill viewport while keeping 640×480 aspect ratio */
