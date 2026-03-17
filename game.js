@@ -11,6 +11,10 @@
   const labRoom = document.getElementById('labRoom');
   const player = document.getElementById('player');
   const playerSprite = player.querySelector('.player-sprite');
+  const introOverlay = document.getElementById('introOverlay');
+  const introEmu = document.getElementById('introEmu');
+  const introEmuText = document.getElementById('introEmuText');
+  const introControls = document.getElementById('introControls');
   const dialogOverlay = document.getElementById('dialogOverlay');
   const dialogText = document.getElementById('dialogText');
   const optionPrimary = document.getElementById('optionPrimary');
@@ -30,6 +34,8 @@
   let playerY = 16;
   let keys = {};
   let currentPokeball = null;
+  let introStage = 0; // 0 = emulating, 1 = controls, 2 = finished
+  let inputEnabled = false;
   let facing = 'up';
   let frameIndex = 1; // 0,1,2 => 1,2,3
   let frameTimer = 0;
@@ -365,7 +371,69 @@
     if (e.target === panelOverlay) closePanel();
   });
 
+  function advanceIntro() {
+    if (!introOverlay) {
+      inputEnabled = true;
+      return;
+    }
+
+    if (introStage === 0) {
+      // Emulating -> Controls
+      if (introEmu) introEmu.hidden = true;
+      if (introControls) introControls.hidden = false;
+      introStage = 1;
+    } else if (introStage === 1) {
+      // Controls -> game
+      introOverlay.hidden = true;
+      introStage = 2;
+      inputEnabled = true;
+    }
+  }
+
+  if (introOverlay) {
+    introOverlay.addEventListener('click', advanceIntro);
+    // Typewriter effect for "Emulating..."
+    if (introEmuText) {
+      const full = 'Emulating...';
+      const stepMs = 120;
+      const holdMs = 1000;
+
+      function runTypewriter() {
+        introEmuText.textContent = '';
+        let idx = 0;
+        const timer = setInterval(function () {
+          if (idx >= full.length) {
+            clearInterval(timer);
+            // After the full text is shown, wait a bit, then restart.
+            setTimeout(function () {
+              // Only loop while we're still on the Emulating screen.
+              if (introStage === 0 && introOverlay && !introOverlay.hidden) {
+                runTypewriter();
+              }
+            }, holdMs);
+            return;
+          }
+          introEmuText.textContent += full.charAt(idx);
+          idx += 1;
+        }, stepMs);
+      }
+
+      runTypewriter();
+    }
+  } else {
+    inputEnabled = true;
+  }
+
   document.addEventListener('keydown', function (e) {
+    // While intro is active, only allow advancing it.
+    if (!inputEnabled) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'e' || e.key === 'E') {
+        e.preventDefault();
+        advanceIntro();
+      }
+      return;
+    }
+
     keys[e.key.toLowerCase()] = true;
     if (e.key === 'e' || e.key === 'E') {
       e.preventDefault();
@@ -455,13 +523,14 @@
   });
 
   document.addEventListener('keyup', function (e) {
+    if (!inputEnabled) return;
     keys[e.key.toLowerCase()] = false;
   });
 
   function update(deltaMs) {
-    // Freeze movement while any dialog/panel is open, or while a Poké Ball
-    // interaction is in progress (during its opening animation).
-    if (!dialogOverlay.hidden || !panelOverlay.hidden || currentPokeball) return;
+    // Freeze movement while intro is active, while any dialog/panel is open,
+    // or while a Poké Ball interaction is in progress (during its opening animation).
+    if (!inputEnabled || !dialogOverlay.hidden || !panelOverlay.hidden || currentPokeball) return;
 
     let dx = 0;
     let dy = 0;
