@@ -43,6 +43,8 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  /* Prevent text/image selection on the intro/transition screens */
+  user-select: none;
 }
 
 .intro-overlay[hidden] {
@@ -96,6 +98,10 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   animation: intro-spin 3s linear infinite;
+  /* Prevent highlighting / dragging during transition */
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .intro-loading-center {

@@ -15,6 +15,7 @@
   const introEmu = document.getElementById('introEmu');
   const introEmuText = document.getElementById('introEmuText');
   const introControls = document.getElementById('introControls');
+  const introLoadingImg = document.querySelector('.intro-loading');
   const dialogOverlay = document.getElementById('dialogOverlay');
   const dialogText = document.getElementById('dialogText');
   const optionPrimary = document.getElementById('optionPrimary');
@@ -40,6 +41,7 @@
   // 2 = Finished (lab active)
   let introStage = 0;
   let inputEnabled = false;
+  let introTransitioning = false; // prevent multiple intro transitions from rapid clicks
   let facing = 'up';
   let frameIndex = 1; // 0,1,2 => 1,2,3
   let frameTimer = 0;
@@ -381,9 +383,14 @@
       return;
     }
 
+    // If a transition animation between intro screens is already running,
+    // ignore additional clicks/keys until it finishes.
+    if (introTransitioning) return;
+
     if (introStage === 0) {
       // Emulating -> effect -> Controls screen
       if (introEmu) introEmu.hidden = true;
+      introTransitioning = true;
 
       // Add centered expanding Poké Ball effect
       const effect = document.createElement('img');
@@ -401,6 +408,7 @@
           introControls.hidden = false;
           introStage = 1;
         }
+        introTransitioning = false;
       }, 1000); // effect duration (1s), < 3s total
     } else if (introStage === 1) {
       // Controls -> game
@@ -411,6 +419,13 @@
   }
 
   if (introOverlay) {
+    // Prevent dragging the loading icon during the intro/transition.
+    if (introLoadingImg) {
+      introLoadingImg.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+      });
+    }
+
     introOverlay.addEventListener('click', advanceIntro);
     // Typewriter effect for "Emulating..."
     if (introEmuText) {
