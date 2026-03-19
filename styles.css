@@ -32,6 +32,145 @@ body {
   image-rendering: crisp-edges;
 }
 
+/* Mobile touch controls */
+.touch-controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  display: none;
+  z-index: 200;
+  pointer-events: none; /* enabled in media query */
+}
+
+.touch-dpad {
+  position: absolute;
+  left: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  width: 168px;
+  height: 168px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.touch-actions {
+  position: absolute;
+  right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  gap: 12px;
+}
+
+.touch-btn {
+  pointer-events: auto;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 3px solid rgba(127, 168, 255, 0.9);
+  background: rgba(242, 242, 242, 0.92);
+  color: #111;
+  font-family: var(--pixel-font);
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none; /* prevent scrolling while holding */
+  user-select: none;
+}
+
+.touch-btn:active {
+  transform: translateY(1px);
+  background: rgba(127, 168, 255, 0.9);
+  color: #fff;
+}
+
+.touch-btn--up { grid-column: 2; grid-row: 1; }
+.touch-btn--left { grid-column: 1; grid-row: 2; }
+.touch-btn--down { grid-column: 2; grid-row: 3; }
+.touch-btn--right { grid-column: 3; grid-row: 2; }
+
+.touch-btn--action {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  font-size: 16px;
+}
+
+/* Show touch controls on small/touch screens */
+@media (pointer: coarse), (max-width: 820px) {
+  .touch-controls {
+    display: block;
+    pointer-events: none;
+  }
+
+  /* Make the game fit the viewport on mobile.
+     Controls float on top, so we don't reserve layout space. */
+  .game-wrapper {
+    padding-bottom: 0;
+  }
+
+  .game-container {
+    /* Use dynamic viewport height to avoid mobile address-bar cutoffs */
+    transform: scale(min(100vw / 640, 100dvh / 480));
+  }
+
+  /* Prevent overlap with touch controls */
+  .controls-hint {
+    display: none;
+  }
+}
+
+/* Mobile portrait: encourage landscape (can't force rotation) */
+.rotate-overlay {
+  display: none;
+}
+
+@media (pointer: coarse) and (orientation: portrait) {
+  .rotate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .rotate-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid rgba(127, 168, 255, 0.9);
+    padding: 18px 16px;
+    max-width: 320px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+  }
+
+  .rotate-title {
+    font-family: var(--pixel-font);
+    font-size: 10px;
+    color: #111;
+    margin-bottom: 10px;
+  }
+
+  .rotate-subtitle {
+    font-family: var(--pixel-font);
+    font-size: 8px;
+    color: rgba(0, 0, 0, 0.75);
+    line-height: 1.8;
+  }
+
+  /* Disable touch controls while portrait prompt is shown */
+  .touch-controls {
+    display: none;
+  }
+}
+
 /* Intro / boot overlays */
 .intro-overlay {
   position: fixed;

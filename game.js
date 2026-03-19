@@ -25,6 +25,9 @@
   const panelContent = document.getElementById('panelContent');
   const panelClose = document.getElementById('panelClose');
   const trainerOverlay = document.getElementById('trainerOverlay');
+  const touchControls = document.getElementById('touchControls');
+  const touchInteract = document.getElementById('touchInteract');
+  const touchTrainer = document.getElementById('touchTrainer');
 
   const pokeballs = [
     { el: document.getElementById('pokeball1'), option: 'projects', primary: 'Check Projects' },
@@ -44,6 +47,108 @@
   let inputEnabled = false;
   let introTransitioning = false; // prevent multiple intro transitions from rapid clicks
   let trainerOpen = false;
+  function toggleTrainerCard() {
+    trainerOpen = !trainerOpen;
+    if (trainerOverlay) trainerOverlay.hidden = !trainerOpen;
+  }
+
+  function tryInteract() {
+    if (!inputEnabled) return;
+    if (!dialogOverlay.hidden || !panelOverlay.hidden || currentPokeball || trainerOpen) return;
+
+    const closest = getClosestPokeball();
+    if (closest) {
+      showDialog(closest);
+      return;
+    }
+
+    if (isAtLeftBookshelf()) {
+      // Flavor text when examining the left bookshelf
+      currentPokeball = null;
+
+      // Only show a single Close button for this interaction
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.textContent = 'Close';
+      typeDialogText(
+        'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!'
+      );
+      dialogOverlay.hidden = false;
+
+      // Make the primary button just close the dialog in this mode
+      optionPrimary.onclick = function () {
+        dialogOverlay.hidden = true;
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false; // restore cancel visibility for next dialogs
+      };
+      return;
+    }
+
+    if (isAtPc()) {
+      // PC interaction: two-step message
+      currentPokeball = null;
+
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.textContent = 'Next';
+      typeDialogText('Booting up the PC...');
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        typeDialogText(
+          'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.'
+        );
+        optionPrimary.textContent = 'Close';
+
+        optionPrimary.onclick = function () {
+          dialogOverlay.hidden = true;
+          optionPrimary.onclick = null;
+          optionCancel.hidden = false;
+        };
+      };
+      return;
+    }
+
+    if (isAtRightBookshelf()) {
+      // Flavor text when examining the right bookshelf
+      currentPokeball = null;
+
+      // Only show a single Close button for this interaction
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.textContent = 'Close';
+      typeDialogText(
+        'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.'
+      );
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        dialogOverlay.hidden = true;
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false;
+      };
+      return;
+    }
+
+    if (isAtGenerator()) {
+      // Flavor text when examining the generator (egg incubator)
+      currentPokeball = null;
+
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.textContent = 'Close';
+      typeDialogText(
+        'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.'
+      );
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        dialogOverlay.hidden = true;
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false;
+      };
+    }
+  }
   let facing = 'up';
   let frameIndex = 1; // 0,1,2 => 1,2,3
   let frameTimer = 0;
@@ -524,8 +629,7 @@
     // Toggle Trainer Card (Q)
     if (e.key === 'q' || e.key === 'Q') {
       e.preventDefault();
-      trainerOpen = !trainerOpen;
-      if (trainerOverlay) trainerOverlay.hidden = !trainerOpen;
+      toggleTrainerCard();
       return;
     }
 
@@ -542,94 +646,55 @@
     keys[e.key.toLowerCase()] = true;
     if (e.key === 'e' || e.key === 'E') {
       e.preventDefault();
-      if (dialogOverlay.hidden) {
-        const closest = getClosestPokeball();
-        if (closest) {
-          showDialog(closest);
-        } else if (isAtLeftBookshelf()) {
-          // Flavor text when examining the left bookshelf
-          currentPokeball = null;
-
-          // Only show a single Close button for this interaction
-          optionSecondary.hidden = true;
-          optionCancel.hidden = true;
-          optionPrimary.textContent = 'Close';
-          typeDialogText(
-            'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!'
-          );
-          dialogOverlay.hidden = false;
-
-          // Make the primary button just close the dialog in this mode
-          optionPrimary.onclick = function () {
-            dialogOverlay.hidden = true;
-            optionPrimary.onclick = null;
-            optionCancel.hidden = false; // restore cancel visibility for next dialogs
-          };
-        } else if (isAtPc()) {
-          // PC interaction: two-step message
-          currentPokeball = null;
-
-          optionSecondary.hidden = true;
-          optionCancel.hidden = true;
-          optionPrimary.textContent = 'Next';
-          typeDialogText('Booting up the PC...');
-          dialogOverlay.hidden = false;
-
-          optionPrimary.onclick = function () {
-            typeDialogText(
-              'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.'
-            );
-            optionPrimary.textContent = 'Close';
-
-            optionPrimary.onclick = function () {
-              dialogOverlay.hidden = true;
-              optionPrimary.onclick = null;
-              optionCancel.hidden = false;
-            };
-          };
-        } else if (isAtRightBookshelf()) {
-          // Flavor text when examining the right bookshelf
-          currentPokeball = null;
-
-          // Only show a single Close button for this interaction
-          optionSecondary.hidden = true;
-          optionCancel.hidden = true;
-          optionPrimary.textContent = 'Close';
-          typeDialogText(
-            'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.'
-          );
-          dialogOverlay.hidden = false;
-
-          optionPrimary.onclick = function () {
-            dialogOverlay.hidden = true;
-            optionPrimary.onclick = null;
-            optionCancel.hidden = false;
-          };
-        } else if (isAtGenerator()) {
-          // Flavor text when examining the generator (egg incubator)
-          currentPokeball = null;
-
-          optionSecondary.hidden = true;
-          optionCancel.hidden = true;
-          optionPrimary.textContent = 'Close';
-          typeDialogText(
-            'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.'
-          );
-          dialogOverlay.hidden = false;
-
-          optionPrimary.onclick = function () {
-            dialogOverlay.hidden = true;
-            optionPrimary.onclick = null;
-            optionCancel.hidden = false;
-          };
-        }
-      }
+      tryInteract();
     }
     if (e.key === 'Escape') {
       if (!panelOverlay.hidden) closePanel();
       else if (!dialogOverlay.hidden) hideDialog();
     }
   });
+
+  // Touch controls (mobile)
+  if (touchControls) {
+    const dpadButtons = touchControls.querySelectorAll('[data-key]');
+
+    function setKey(key, isDown) {
+      keys[key] = isDown;
+    }
+
+    dpadButtons.forEach(function (btn) {
+      const key = btn.getAttribute('data-key');
+      const down = function (e) {
+        e.preventDefault();
+        if (!inputEnabled || trainerOpen) return;
+        setKey(key, true);
+      };
+      const up = function (e) {
+        e.preventDefault();
+        setKey(key, false);
+      };
+
+      btn.addEventListener('pointerdown', down);
+      btn.addEventListener('pointerup', up);
+      btn.addEventListener('pointercancel', up);
+      btn.addEventListener('pointerleave', up);
+    });
+
+    if (touchInteract) {
+      touchInteract.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        tryInteract();
+      });
+    }
+
+    if (touchTrainer) {
+      touchTrainer.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        if (!inputEnabled) return;
+        toggleTrainerCard();
+      });
+    }
+  }
 
   document.addEventListener('keyup', function (e) {
     if (!inputEnabled) return;
