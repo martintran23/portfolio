@@ -113,6 +113,29 @@
   </div>
   </div>
 
+  <!-- Mobile touch controls (shown on small/touch screens) -->
+  <div class="touch-controls" id="touchControls" aria-hidden="true">
+    <div class="touch-dpad" role="group" aria-label="Movement controls">
+      <button class="touch-btn touch-btn--up" data-key="w" aria-label="Move up">▲</button>
+      <button class="touch-btn touch-btn--left" data-key="a" aria-label="Move left">◀</button>
+      <button class="touch-btn touch-btn--down" data-key="s" aria-label="Move down">▼</button>
+      <button class="touch-btn touch-btn--right" data-key="d" aria-label="Move right">▶</button>
+    </div>
+
+    <div class="touch-actions" role="group" aria-label="Action controls">
+      <button class="touch-btn touch-btn--action" id="touchInteract" aria-label="Interact">E</button>
+      <button class="touch-btn touch-btn--action" id="touchTrainer" aria-label="Trainer Card">Q</button>
+    </div>
+  </div>
+
+  <!-- Mobile: prompt to rotate for best experience -->
+  <div class="rotate-overlay" id="rotateOverlay" aria-hidden="true">
+    <div class="rotate-card">
+      <div class="rotate-title">Rotate your device</div>
+      <div class="rotate-subtitle">For the best experience, play in landscape.</div>
+    </div>
+  </div>
+
   <!-- Hidden content for each section -->
   <template id="projectsContent">
     <h2>Projects</h2>
@@ -146,12 +169,8 @@
   </template>
   <template id="resumeContent">
     <h2>Resume</h2>
-    <p>You can view the full resume below, or download it directly from the dialog.</p>
-    <iframe
-      src="assets/resume.pdf"
-      title="Martin Tran Resume"
-      style="width: 100%; height: 360px; border: 0; background: #fff;">
-    </iframe>
+    <h2>Resume</h2>
+    <p>Use the Resume Poké Ball to open or download the PDF.</p>
   </template>
 
   <p class="controls-hint">WASD to move · E to interact · Q for Trainer Card</p>
