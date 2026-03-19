@@ -366,6 +366,133 @@ body {
   box-shadow: 0 8px 32px rgba(0,0,0,0.7);
 }
 
+/* Trainer Card overlay (Q) */
+.trainer-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.trainer-overlay[hidden] {
+  display: none;
+}
+
+.trainer-card {
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 2 / 1;
+  position: relative;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  transform: none;
+}
+
+.trainer-card__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.trainer-card__title {
+  position: absolute;
+  top: 36px;
+  left: 44px;
+  font-size: 18px;
+  color: #111;
+  pointer-events: none;
+}
+
+.trainer-card__content {
+  position: absolute;
+  left: 44px;
+  top: 92px;
+  width: 52%;
+  pointer-events: auto;
+}
+
+/* Add a little breathing room under the name */
+.trainer-card__content .trainer-card__value--underline + .trainer-card__row {
+  margin-top: 30px;
+}
+
+.trainer-card__label {
+  font-size: 9px;
+  color: #111;
+}
+
+.trainer-card__label--spaced {
+  margin-top: 18px;
+}
+
+.trainer-card__value {
+  margin-top: 8px;
+  font-size: 9px;
+  color: #111;
+}
+
+/* Larger name on the Trainer Card */
+.trainer-card__value--underline {
+  font-size: 12px;
+  margin-top: 0;
+}
+
+.trainer-card__value--underline {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.trainer-card__link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  color: #111;
+  text-decoration: none;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.trainer-card__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.trainer-card__row:first-of-type {
+  margin-top: 18px;
+}
+
+.trainer-card__icon {
+  width: 22px;
+  height: 22px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex: 0 0 auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.trainer-card__row a,
+.trainer-card__row span {
+  display: inline-block;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.trainer-card__link:hover {
+  text-decoration: underline;
+}
+
+.trainer-card__hint { display: none; }
+
 .panel-close {
   position: absolute;
   top: 12px;

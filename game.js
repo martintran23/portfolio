@@ -24,6 +24,7 @@
   const panelOverlay = document.getElementById('panelOverlay');
   const panelContent = document.getElementById('panelContent');
   const panelClose = document.getElementById('panelClose');
+  const trainerOverlay = document.getElementById('trainerOverlay');
 
   const pokeballs = [
     { el: document.getElementById('pokeball1'), option: 'projects', primary: 'Check Projects' },
@@ -42,6 +43,7 @@
   let introStage = 0;
   let inputEnabled = false;
   let introTransitioning = false; // prevent multiple intro transitions from rapid clicks
+  let trainerOpen = false;
   let facing = 'up';
   let frameIndex = 1; // 0,1,2 => 1,2,3
   let frameTimer = 0;
@@ -514,6 +516,24 @@
       return;
     }
 
+    // Toggle Trainer Card (Q)
+    if (e.key === 'q' || e.key === 'Q') {
+      e.preventDefault();
+      trainerOpen = !trainerOpen;
+      if (trainerOverlay) trainerOverlay.hidden = !trainerOpen;
+      return;
+    }
+
+    // If Trainer Card is open, block all other gameplay interactions.
+    if (trainerOpen) {
+      if (e.key === 'Escape' && trainerOverlay) {
+        trainerOpen = false;
+        trainerOverlay.hidden = true;
+      }
+      e.preventDefault();
+      return;
+    }
+
     keys[e.key.toLowerCase()] = true;
     if (e.key === 'e' || e.key === 'E') {
       e.preventDefault();
@@ -614,7 +634,7 @@
   function update(deltaMs) {
     // Freeze movement while intro is active, while any dialog/panel is open,
     // or while a Poké Ball interaction is in progress (during its opening animation).
-    if (!inputEnabled || !dialogOverlay.hidden || !panelOverlay.hidden || currentPokeball) return;
+    if (trainerOpen || !inputEnabled || !dialogOverlay.hidden || !panelOverlay.hidden || currentPokeball) return;
 
     let dx = 0;
     let dy = 0;
