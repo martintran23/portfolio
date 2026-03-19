@@ -392,6 +392,11 @@
 
   optionPrimary.addEventListener('click', function () {
     if (!currentPokeball) return;
+    if (currentPokeball.option === 'resume') {
+      window.open('assets/resume.pdf', '_blank');
+      hideDialog();
+      return;
+    }
     openPanel(currentPokeball.option);
   });
 
