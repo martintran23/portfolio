@@ -48,6 +48,9 @@
   let lastMoveTime = performance.now();
   let idleHintShown = false;
   let lastSpritePath = '';
+  let dialogTypeTimer = null;
+  let dialogTypeFullText = '';
+  let dialogTypeIdx = 0;
 
   const FRAME_INTERVAL_MS = 120;
   const SPRITES = {
@@ -177,6 +180,36 @@
 
   function distance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  function stopDialogTyping() {
+    if (dialogTypeTimer) {
+      clearInterval(dialogTypeTimer);
+      dialogTypeTimer = null;
+    }
+  }
+
+  function typeDialogText(text, stepMs = 18) {
+    stopDialogTyping();
+    dialogTypeFullText = text;
+    dialogTypeIdx = 0;
+    dialogText.textContent = '';
+
+    dialogTypeTimer = setInterval(function () {
+      if (dialogTypeIdx >= dialogTypeFullText.length) {
+        stopDialogTyping();
+        return;
+      }
+      dialogText.textContent += dialogTypeFullText.charAt(dialogTypeIdx);
+      dialogTypeIdx += 1;
+    }, stepMs);
+  }
+
+  function finishDialogTyping() {
+    if (!dialogTypeTimer) return false;
+    stopDialogTyping();
+    dialogText.textContent = dialogTypeFullText;
+    return true;
   }
 
   // Rectangular "no-walk" zones in room coordinates (bottom/left origin).
@@ -309,7 +342,8 @@
     optionPrimary.onclick = null;      // use default listener for Poké Balls
     optionCancel.hidden = false;
     optionSecondary.hidden = true;
-    dialogText.textContent = 'Choose an option.'; // reset from any flavor text
+    dialogTypeFullText = 'Choose an option.';
+    dialogText.textContent = ''; // will type when shown
 
     if (pokeball.option === 'resume') {
       optionSecondary.textContent = 'Download Resume';
@@ -321,11 +355,13 @@
     setTimeout(function () {
       if (currentPokeball === pokeball) {
         dialogOverlay.hidden = false;
+        typeDialogText(dialogTypeFullText);
       }
     }, POKEBALL_ANIMATION_MS);
   }
 
   function hideDialog() {
+    stopDialogTyping();
     dialogOverlay.hidden = true;
     if (currentPokeball) {
       currentPokeball.el.classList.remove('pokeball--open');
@@ -459,6 +495,15 @@
     inputEnabled = true;
   }
 
+  // If the user clicks the dialog while it's typing, finish instantly (Pokémon-style).
+  if (dialogOverlay) {
+    dialogOverlay.addEventListener('click', function (e) {
+      // Don't interfere with button clicks; only handle background/text clicks.
+      if (e.target && e.target.closest && e.target.closest('button')) return;
+      finishDialogTyping();
+    });
+  }
+
   document.addEventListener('keydown', function (e) {
     // While intro is active, only allow advancing it.
     if (!inputEnabled) {
@@ -484,8 +529,9 @@
           optionSecondary.hidden = true;
           optionCancel.hidden = true;
           optionPrimary.textContent = 'Close';
-          dialogText.textContent =
-            'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!';
+          typeDialogText(
+            'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!'
+          );
           dialogOverlay.hidden = false;
 
           // Make the primary button just close the dialog in this mode
@@ -501,12 +547,13 @@
           optionSecondary.hidden = true;
           optionCancel.hidden = true;
           optionPrimary.textContent = 'Next';
-          dialogText.textContent = 'Booting up the PC...';
+          typeDialogText('Booting up the PC...');
           dialogOverlay.hidden = false;
 
           optionPrimary.onclick = function () {
-            dialogText.textContent =
-              'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.';
+            typeDialogText(
+              'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.'
+            );
             optionPrimary.textContent = 'Close';
 
             optionPrimary.onclick = function () {
@@ -523,8 +570,9 @@
           optionSecondary.hidden = true;
           optionCancel.hidden = true;
           optionPrimary.textContent = 'Close';
-          dialogText.textContent =
-            'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.';
+          typeDialogText(
+            'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.'
+          );
           dialogOverlay.hidden = false;
 
           optionPrimary.onclick = function () {
@@ -539,8 +587,9 @@
           optionSecondary.hidden = true;
           optionCancel.hidden = true;
           optionPrimary.textContent = 'Close';
-          dialogText.textContent =
-            'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.';
+          typeDialogText(
+            'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.'
+          );
           dialogOverlay.hidden = false;
 
           optionPrimary.onclick = function () {
@@ -631,7 +680,7 @@
       optionSecondary.hidden = true;
       optionCancel.hidden = true;
       optionPrimary.textContent = 'Close';
-      dialogText.textContent = 'I hope I find a job soon...';
+      typeDialogText('I hope I find a job soon...');
       dialogOverlay.hidden = false;
 
       optionPrimary.onclick = function () {
