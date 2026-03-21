@@ -189,9 +189,6 @@
     player.style.left = playerX + 'px';
     player.style.bottom = playerY + 'px';
 
-    // Debug: log player coordinates for tuning collision/blockers
-    console.log('player pos:', playerX, playerY);
-
     // Update last movement time whenever the player position actually changes
     lastMoveTime = performance.now();
     idleHintShown = false;
