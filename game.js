@@ -28,6 +28,10 @@
   const touchControls = document.getElementById('touchControls');
   const touchInteract = document.getElementById('touchInteract');
   const touchTrainer = document.getElementById('touchTrainer');
+  const gameContainer = document.querySelector('.game-container');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const zoomLabel = document.getElementById('zoomLabel');
 
   const pokeballs = [
     { el: document.getElementById('pokeball1'), option: 'projects', primary: 'Check Projects' },
@@ -39,6 +43,11 @@
   let playerY = 16;
   let keys = {};
   let currentPokeball = null;
+  const BASE_ZOOM = 0.8; // Treat previous 80% as the new "100%"
+  const MIN_ZOOM = 0.75;
+  const MAX_ZOOM = 1.25;
+  const ZOOM_STEP = 0.05;
+  let playerZoom = 1;
   // Intro stages:
   // 0 = Emulating screen
   // 1 = Controls screen
@@ -414,9 +423,13 @@
   function getPokeballCenter(pokeballEl) {
     const rect = pokeballEl.getBoundingClientRect();
     const roomRect = labRoom.getBoundingClientRect();
+    const scaleX = roomRect.width / LAB_WIDTH || 1;
+    const scaleY = roomRect.height / LAB_HEIGHT || 1;
     return {
-      x: rect.left - roomRect.left + rect.width / 2,
-      y: rect.top - roomRect.top + rect.height / 2
+      // Convert screen pixels back into room coordinates so distance checks
+      // stay accurate regardless of container zoom level.
+      x: (rect.left - roomRect.left + rect.width / 2) / scaleX,
+      y: (rect.top - roomRect.top + rect.height / 2) / scaleY
     };
   }
 
@@ -437,7 +450,7 @@
     return closest;
   }
 
-  const POKEBALL_ANIMATION_MS = 600;
+  const POKEBALL_ANIMATION_MS = 500;
 
   function showDialog(pokeball) {
     currentPokeball = pokeball;
@@ -474,6 +487,26 @@
     // Restore default button state so the next dialog isn't affected
     optionPrimary.onclick = null;
     optionCancel.hidden = false;
+  }
+
+  function applyContainerScale() {
+    if (!gameContainer) return;
+    const viewportW = window.innerWidth;
+    const viewportH = window.innerHeight;
+    const fitScale = Math.min(viewportW / LAB_WIDTH, viewportH / LAB_HEIGHT);
+    const totalScale = fitScale * BASE_ZOOM * playerZoom;
+    // Snap to small increments to reduce fractional-scale blur artifacts.
+    const snappedScale = Math.round(totalScale * 20) / 20;
+    gameContainer.style.transform = 'scale(' + snappedScale.toFixed(2) + ')';
+  }
+
+  function updateZoomUI() {
+    applyContainerScale();
+    if (zoomLabel) {
+      zoomLabel.textContent = Math.round(playerZoom * 100) + '%';
+    }
+    if (zoomInBtn) zoomInBtn.disabled = playerZoom >= MAX_ZOOM;
+    if (zoomOutBtn) zoomOutBtn.disabled = playerZoom <= MIN_ZOOM;
   }
 
   function openPanel(sectionId) {
@@ -521,6 +554,22 @@
   panelOverlay.addEventListener('click', function (e) {
     if (e.target === panelOverlay) closePanel();
   });
+
+  if (zoomInBtn) {
+    zoomInBtn.addEventListener('click', function () {
+      playerZoom = Math.min(MAX_ZOOM, +(playerZoom + ZOOM_STEP).toFixed(2));
+      updateZoomUI();
+    });
+  }
+
+  if (zoomOutBtn) {
+    zoomOutBtn.addEventListener('click', function () {
+      playerZoom = Math.max(MIN_ZOOM, +(playerZoom - ZOOM_STEP).toFixed(2));
+      updateZoomUI();
+    });
+  }
+
+  window.addEventListener('resize', applyContainerScale);
 
   function advanceIntro() {
     if (!introOverlay) {
@@ -782,4 +831,5 @@
   }
 
   requestAnimationFrame(gameLoop);
+  updateZoomUI();
 })();
