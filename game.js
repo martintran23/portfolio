@@ -801,14 +801,14 @@
     const deltaMs = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
 
-    // Check for idle hint: if the player hasn't moved in 60 seconds
+    // Check for idle hint: if the player hasn't moved in 2 minutes
     // and no dialog/panel is open, show a one-time textbox.
     const now = performance.now();
     if (
       dialogOverlay.hidden &&
       panelOverlay.hidden &&
       !idleHintShown &&
-      now - lastMoveTime > 60000
+      now - lastMoveTime > 120000
     ) {
       idleHintShown = true;
       currentPokeball = null;
