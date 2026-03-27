@@ -7,7 +7,7 @@
   const PLAYER_HEIGHT = 80;
   const INTERACT_DISTANCE = 60;
   const MOVE_SPEED_PC = 0.6;
-  const MOVE_SPEED_MOBILE = 1;
+  const MOVE_SPEED_MOBILE = 1.6;
 
   const labRoom = document.getElementById('labRoom');
   const player = document.getElementById('player');
