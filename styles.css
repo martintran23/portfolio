@@ -131,52 +131,6 @@ body {
   }
 }
 
-/* Mobile portrait: encourage landscape (can't force rotation) */
-.rotate-overlay {
-  display: none;
-}
-
-@media (pointer: coarse) and (orientation: portrait) {
-  .rotate-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.85);
-    padding: 24px;
-    text-align: center;
-  }
-
-  .rotate-card {
-    background: rgba(255, 255, 255, 0.95);
-    border: 3px solid rgba(127, 168, 255, 0.9);
-    padding: 18px 16px;
-    max-width: 320px;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
-  }
-
-  .rotate-title {
-    font-family: var(--pixel-font);
-    font-size: 10px;
-    color: #111;
-    margin-bottom: 10px;
-  }
-
-  .rotate-subtitle {
-    font-family: var(--pixel-font);
-    font-size: 8px;
-    color: rgba(0, 0, 0, 0.75);
-    line-height: 1.8;
-  }
-
-  /* Disable touch controls while portrait prompt is shown */
-  .touch-controls {
-    display: none;
-  }
-}
-
 /* Intro / boot overlays */
 .intro-overlay {
   position: fixed;
