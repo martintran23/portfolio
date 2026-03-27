@@ -6,7 +6,8 @@
   const PLAYER_WIDTH = 64;
   const PLAYER_HEIGHT = 80;
   const INTERACT_DISTANCE = 60;
-  const MOVE_SPEED = 0.6;
+  const MOVE_SPEED_PC = 0.6;
+  const MOVE_SPEED_MOBILE = 1;
 
   const labRoom = document.getElementById('labRoom');
   const player = document.getElementById('player');
@@ -56,6 +57,7 @@
   let inputEnabled = false;
   let introTransitioning = false; // prevent multiple intro transitions from rapid clicks
   let trainerOpen = false;
+  let touchMovementActive = false;
   function toggleTrainerCard() {
     trainerOpen = !trainerOpen;
     if (trainerOverlay) trainerOverlay.hidden = !trainerOpen;
@@ -764,10 +766,12 @@
       const down = function (e) {
         e.preventDefault();
         if (!inputEnabled || trainerOpen) return;
+        touchMovementActive = true;
         setKey(key, true);
       };
       const up = function (e) {
         e.preventDefault();
+        touchMovementActive = false;
         setKey(key, false);
       };
 
@@ -805,10 +809,11 @@
 
     let dx = 0;
     let dy = 0;
-    if (keys['w']) dy += MOVE_SPEED;
-    if (keys['s']) dy -= MOVE_SPEED;
-    if (keys['a']) dx -= MOVE_SPEED;
-    if (keys['d']) dx += MOVE_SPEED;
+    const activeMoveSpeed = touchMovementActive ? MOVE_SPEED_MOBILE : MOVE_SPEED_PC;
+    if (keys['w']) dy += activeMoveSpeed;
+    if (keys['s']) dy -= activeMoveSpeed;
+    if (keys['a']) dx -= activeMoveSpeed;
+    if (keys['d']) dx += activeMoveSpeed;
 
     const isMoving = dx !== 0 || dy !== 0;
 
