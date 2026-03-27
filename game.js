@@ -58,6 +58,13 @@
   let introTransitioning = false; // prevent multiple intro transitions from rapid clicks
   let trainerOpen = false;
   let touchMovementActive = false;
+  function setTouchControlsEnabled(enabled) {
+    if (!touchControls) return;
+    touchControls.style.display = enabled ? '' : 'none';
+    touchControls.setAttribute('aria-hidden', enabled ? 'false' : 'true');
+  }
+  // Keep touch controls hidden until intro/loading/control screens are finished.
+  setTouchControlsEnabled(false);
   function toggleTrainerCard() {
     trainerOpen = !trainerOpen;
     if (trainerOverlay) trainerOverlay.hidden = !trainerOpen;
@@ -626,6 +633,7 @@
   function advanceIntro() {
     if (!introOverlay) {
       inputEnabled = true;
+      setTouchControlsEnabled(true);
       return;
     }
 
@@ -661,6 +669,7 @@
       introOverlay.hidden = true;
       introStage = 2;
       inputEnabled = true;
+      setTouchControlsEnabled(true);
     }
   }
 
@@ -703,6 +712,7 @@
     }
   } else {
     inputEnabled = true;
+    setTouchControlsEnabled(true);
   }
 
   // If the user clicks the dialog while it's typing, finish instantly (Pokémon-style).
