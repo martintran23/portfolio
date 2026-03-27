@@ -78,10 +78,17 @@
       // Only show a single Close button for this interaction
       optionSecondary.hidden = true;
       optionCancel.hidden = true;
+      optionPrimary.hidden = true;
       optionPrimary.textContent = 'Close';
       typeDialogText(
-        'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!'
+        'These shelves are packed with Jurassic Park and Jurassic World DVDs... I could rewatch that series forever!',
+        18,
+        function () {
+          optionPrimary.hidden = false;
+          allowDialogSkip = true;
+        }
       );
+      allowDialogSkip = false;
       dialogOverlay.hidden = false;
 
       // Make the primary button just close the dialog in this mode
@@ -99,14 +106,26 @@
 
       optionSecondary.hidden = true;
       optionCancel.hidden = true;
+      optionPrimary.hidden = true;
       optionPrimary.textContent = 'Next';
-      typeDialogText('Booting up the PC...');
+      typeDialogText('Booting up the PC...', 18, function () {
+        optionPrimary.hidden = false;
+        allowDialogSkip = true;
+      });
+      allowDialogSkip = false;
       dialogOverlay.hidden = false;
 
       optionPrimary.onclick = function () {
+        optionPrimary.hidden = true;
         typeDialogText(
-          'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.'
+          'There are games installed: Pokémon, Roblox, and Valorant... but the Valorant client looks out of date.',
+          18,
+          function () {
+            optionPrimary.hidden = false;
+            allowDialogSkip = true;
+          }
         );
+        allowDialogSkip = false;
         optionPrimary.textContent = 'Close';
 
         optionPrimary.onclick = function () {
@@ -125,10 +144,17 @@
       // Only show a single Close button for this interaction
       optionSecondary.hidden = true;
       optionCancel.hidden = true;
+      optionPrimary.hidden = true;
       optionPrimary.textContent = 'Close';
       typeDialogText(
-        'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.'
+        'Looks like a whole shelf of weightlifting and training manuals... I should probably follow a routine like this someday.',
+        18,
+        function () {
+          optionPrimary.hidden = false;
+          allowDialogSkip = true;
+        }
       );
+      allowDialogSkip = false;
       dialogOverlay.hidden = false;
 
       optionPrimary.onclick = function () {
@@ -145,10 +171,17 @@
 
       optionSecondary.hidden = true;
       optionCancel.hidden = true;
+      optionPrimary.hidden = true;
       optionPrimary.textContent = 'Close';
       typeDialogText(
-        'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.'
+        'It looks like a high-tech egg incubator... the label says “Latios.” Whatever is inside must be incredibly special.',
+        18,
+        function () {
+          optionPrimary.hidden = false;
+          allowDialogSkip = true;
+        }
       );
+      allowDialogSkip = false;
       dialogOverlay.hidden = false;
 
       optionPrimary.onclick = function () {
@@ -167,6 +200,8 @@
   let dialogTypeTimer = null;
   let dialogTypeFullText = '';
   let dialogTypeIdx = 0;
+  let dialogTypeOnDone = null;
+  let allowDialogSkip = true;
 
   const FRAME_INTERVAL_MS = 120;
   const SPRITES = {
@@ -302,15 +337,21 @@
     }
   }
 
-  function typeDialogText(text, stepMs = 18) {
+  function typeDialogText(text, stepMs = 18, onDone = null) {
     stopDialogTyping();
     dialogTypeFullText = text;
     dialogTypeIdx = 0;
+    dialogTypeOnDone = onDone;
     dialogText.textContent = '';
 
     dialogTypeTimer = setInterval(function () {
       if (dialogTypeIdx >= dialogTypeFullText.length) {
         stopDialogTyping();
+        if (dialogTypeOnDone) {
+          const done = dialogTypeOnDone;
+          dialogTypeOnDone = null;
+          done();
+        }
         return;
       }
       dialogText.textContent += dialogTypeFullText.charAt(dialogTypeIdx);
@@ -322,6 +363,11 @@
     if (!dialogTypeTimer) return false;
     stopDialogTyping();
     dialogText.textContent = dialogTypeFullText;
+    if (dialogTypeOnDone) {
+      const done = dialogTypeOnDone;
+      dialogTypeOnDone = null;
+      done();
+    }
     return true;
   }
 
@@ -455,6 +501,7 @@
   function showDialog(pokeball) {
     currentPokeball = pokeball;
     optionPrimary.textContent = pokeball.primary;
+    optionPrimary.hidden = false;
     // Reset dialog state so it doesn't reuse custom handlers/visibility
     optionPrimary.onclick = null;      // use default listener for Poké Balls
     optionCancel.hidden = false;
@@ -468,6 +515,7 @@
     } else {
       optionSecondary.hidden = true;
     }
+    allowDialogSkip = true;
     pokeball.el.classList.add('pokeball--open');
     setTimeout(function () {
       if (currentPokeball === pokeball) {
@@ -486,7 +534,9 @@
     currentPokeball = null;
     // Restore default button state so the next dialog isn't affected
     optionPrimary.onclick = null;
+    optionPrimary.hidden = false;
     optionCancel.hidden = false;
+    allowDialogSkip = true;
   }
 
   function applyContainerScale() {
@@ -658,6 +708,7 @@
     dialogOverlay.addEventListener('click', function (e) {
       // Don't interfere with button clicks; only handle background/text clicks.
       if (e.target && e.target.closest && e.target.closest('button')) return;
+      if (!allowDialogSkip) return;
       finishDialogTyping();
     });
   }
@@ -801,22 +852,27 @@
     const deltaMs = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
 
-    // Check for idle hint: if the player hasn't moved in 60 seconds
+    // Check for idle hint: if the player hasn't moved in 2 minutes
     // and no dialog/panel is open, show a one-time textbox.
     const now = performance.now();
     if (
       dialogOverlay.hidden &&
       panelOverlay.hidden &&
       !idleHintShown &&
-      now - lastMoveTime > 60000
+      now - lastMoveTime > 120000
     ) {
       idleHintShown = true;
       currentPokeball = null;
 
       optionSecondary.hidden = true;
       optionCancel.hidden = true;
+      optionPrimary.hidden = true;
       optionPrimary.textContent = 'Close';
-      typeDialogText('I hope I find a job soon...');
+      typeDialogText('I hope I find a job soon...', 18, function () {
+        optionPrimary.hidden = false;
+        allowDialogSkip = true;
+      });
+      allowDialogSkip = false;
       dialogOverlay.hidden = false;
 
       optionPrimary.onclick = function () {
