@@ -37,7 +37,7 @@
   <div class="game-container">
     <!-- Pokémon Lab room - Oak's lab background from FireRed/LeafGreen style -->
     <div class="lab-room" id="labRoom">
-      <!-- All balls show pokeball closed; on interact: closed → ultraball → open, then popup -->
+      <!-- All balls show pokeball closed; on interact: closed → semiopen → open, then popup -->
       <div class="pokeball pokeball-1" id="pokeball1" data-option="projects" title="Press E when close">
       <img class="pokeball-img pokeball-img--f1" src="assets/pokeball-closed.png" alt="">
       <img class="pokeball-img pokeball-img--f2" src="assets/pokeball-semiopen.png" alt="">
@@ -53,13 +53,12 @@
       <img class="pokeball-img pokeball-img--f2" src="assets/pokeball-semiopen.png" alt="">
       <img class="pokeball-img pokeball-img--f3" src="assets/pokeball-open.png" alt="">
       </div>
-      <!-- Player character (starts on red mat at bottom center) -->
       <div class="player" id="player">
         <div class="player-sprite"></div>
       </div>
     </div>
 
-    <!-- Pokémon-style dialog box -->
+    <!-- Dialog box -->
     <div class="dialog-overlay" id="dialogOverlay" hidden>
       <div class="dialog-box">
         <p class="dialog-text" id="dialogText">Choose an option.</p>

@@ -6,7 +6,7 @@
   const PLAYER_WIDTH = 64;
   const PLAYER_HEIGHT = 80;
   const INTERACT_DISTANCE = 60;
-  const MOVE_SPEED_PC = 0.6;
+  const MOVE_SPEED_PC = 0.5;
   const MOVE_SPEED_MOBILE = 1.6;
 
   const labRoom = document.getElementById('labRoom');
@@ -205,6 +205,7 @@
   let frameTimer = 0;
   let lastMoveTime = performance.now();
   let idleHintShown = false;
+  let idleHintDialogOpen = false;
   let lastSpritePath = '';
   let dialogTypeTimer = null;
   let dialogTypeFullText = '';
@@ -546,6 +547,7 @@
     optionPrimary.hidden = false;
     optionCancel.hidden = false;
     allowDialogSkip = true;
+    idleHintDialogOpen = false;
   }
 
   function applyContainerScale() {
@@ -614,20 +616,75 @@
     if (e.target === panelOverlay) closePanel();
   });
 
-  if (zoomInBtn) {
-    zoomInBtn.addEventListener('click', function () {
-      playerZoom = Math.min(MAX_ZOOM, +(playerZoom + ZOOM_STEP).toFixed(2));
-      updateZoomUI();
-    });
+  const ZOOM_HOLD_DELAY_MS = 350;
+  const ZOOM_HOLD_INTERVAL_MS = 90;
+  let zoomHoldTimeout = null;
+  let zoomHoldInterval = null;
+
+  function clearZoomHold() {
+    if (zoomHoldTimeout !== null) {
+      clearTimeout(zoomHoldTimeout);
+      zoomHoldTimeout = null;
+    }
+    if (zoomHoldInterval !== null) {
+      clearInterval(zoomHoldInterval);
+      zoomHoldInterval = null;
+    }
   }
 
-  if (zoomOutBtn) {
-    zoomOutBtn.addEventListener('click', function () {
-      playerZoom = Math.max(MIN_ZOOM, +(playerZoom - ZOOM_STEP).toFixed(2));
-      updateZoomUI();
-    });
+  function bumpZoomIn() {
+    playerZoom = Math.min(MAX_ZOOM, +(playerZoom + ZOOM_STEP).toFixed(2));
+    updateZoomUI();
   }
 
+  function bumpZoomOut() {
+    playerZoom = Math.max(MIN_ZOOM, +(playerZoom - ZOOM_STEP).toFixed(2));
+    updateZoomUI();
+  }
+
+  function attachZoomHold(btn, dir) {
+    if (!btn) return;
+    const bump = dir > 0 ? bumpZoomIn : bumpZoomOut;
+    const atLimit = function () {
+      return dir > 0 ? playerZoom >= MAX_ZOOM : playerZoom <= MIN_ZOOM;
+    };
+
+    btn.addEventListener('click', function (e) {
+      if (e.detail !== 0) return;
+      if (atLimit()) return;
+      bump();
+    });
+
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.button !== -1) return;
+      e.preventDefault();
+      if (atLimit()) return;
+      bump();
+      clearZoomHold();
+      zoomHoldTimeout = setTimeout(function () {
+        zoomHoldTimeout = null;
+        zoomHoldInterval = setInterval(function () {
+          if (atLimit()) {
+            clearZoomHold();
+            return;
+          }
+          bump();
+        }, ZOOM_HOLD_INTERVAL_MS);
+      }, ZOOM_HOLD_DELAY_MS);
+    });
+
+    function endZoomHold() {
+      clearZoomHold();
+    }
+    btn.addEventListener('pointerup', endZoomHold);
+    btn.addEventListener('pointercancel', endZoomHold);
+    btn.addEventListener('pointerleave', endZoomHold);
+  }
+
+  attachZoomHold(zoomInBtn, 1);
+  attachZoomHold(zoomOutBtn, -1);
+
+  window.addEventListener('blur', clearZoomHold);
   window.addEventListener('resize', applyContainerScale);
 
   function advanceIntro() {
@@ -735,9 +792,15 @@
       return;
     }
 
-    // Toggle Trainer Card (Q)
+    // Toggle Trainer Card (Q), or dismiss idle-hint dialog and show card (user isn't AFK)
     if (e.key === 'q' || e.key === 'Q') {
       e.preventDefault();
+      if (idleHintDialogOpen) {
+        hideDialog();
+        trainerOpen = true;
+        if (trainerOverlay) trainerOverlay.hidden = false;
+        return;
+      }
       toggleTrainerCard();
       return;
     }
@@ -802,6 +865,12 @@
       touchTrainer.addEventListener('pointerdown', function (e) {
         e.preventDefault();
         if (!inputEnabled) return;
+        if (idleHintDialogOpen) {
+          hideDialog();
+          trainerOpen = true;
+          if (trainerOverlay) trainerOverlay.hidden = false;
+          return;
+        }
         toggleTrainerCard();
       });
     }
@@ -889,11 +958,10 @@
       });
       allowDialogSkip = false;
       dialogOverlay.hidden = false;
+      idleHintDialogOpen = true;
 
       optionPrimary.onclick = function () {
-        dialogOverlay.hidden = true;
-        optionPrimary.onclick = null;
-        optionCancel.hidden = false;
+        hideDialog();
       };
     }
 
