@@ -205,6 +205,7 @@
   let frameTimer = 0;
   let lastMoveTime = performance.now();
   let idleHintShown = false;
+  let idleHintDialogOpen = false;
   let lastSpritePath = '';
   let dialogTypeTimer = null;
   let dialogTypeFullText = '';
@@ -546,6 +547,7 @@
     optionPrimary.hidden = false;
     optionCancel.hidden = false;
     allowDialogSkip = true;
+    idleHintDialogOpen = false;
   }
 
   function applyContainerScale() {
@@ -790,9 +792,15 @@
       return;
     }
 
-    // Toggle Trainer Card (Q)
+    // Toggle Trainer Card (Q), or dismiss idle-hint dialog and show card (user isn't AFK)
     if (e.key === 'q' || e.key === 'Q') {
       e.preventDefault();
+      if (idleHintDialogOpen) {
+        hideDialog();
+        trainerOpen = true;
+        if (trainerOverlay) trainerOverlay.hidden = false;
+        return;
+      }
       toggleTrainerCard();
       return;
     }
@@ -857,6 +865,12 @@
       touchTrainer.addEventListener('pointerdown', function (e) {
         e.preventDefault();
         if (!inputEnabled) return;
+        if (idleHintDialogOpen) {
+          hideDialog();
+          trainerOpen = true;
+          if (trainerOverlay) trainerOverlay.hidden = false;
+          return;
+        }
         toggleTrainerCard();
       });
     }
@@ -944,11 +958,10 @@
       });
       allowDialogSkip = false;
       dialogOverlay.hidden = false;
+      idleHintDialogOpen = true;
 
       optionPrimary.onclick = function () {
-        dialogOverlay.hidden = true;
-        optionPrimary.onclick = null;
-        optionCancel.hidden = false;
+        hideDialog();
       };
     }
 
