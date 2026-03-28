@@ -614,20 +614,75 @@
     if (e.target === panelOverlay) closePanel();
   });
 
-  if (zoomInBtn) {
-    zoomInBtn.addEventListener('click', function () {
-      playerZoom = Math.min(MAX_ZOOM, +(playerZoom + ZOOM_STEP).toFixed(2));
-      updateZoomUI();
-    });
+  const ZOOM_HOLD_DELAY_MS = 350;
+  const ZOOM_HOLD_INTERVAL_MS = 90;
+  let zoomHoldTimeout = null;
+  let zoomHoldInterval = null;
+
+  function clearZoomHold() {
+    if (zoomHoldTimeout !== null) {
+      clearTimeout(zoomHoldTimeout);
+      zoomHoldTimeout = null;
+    }
+    if (zoomHoldInterval !== null) {
+      clearInterval(zoomHoldInterval);
+      zoomHoldInterval = null;
+    }
   }
 
-  if (zoomOutBtn) {
-    zoomOutBtn.addEventListener('click', function () {
-      playerZoom = Math.max(MIN_ZOOM, +(playerZoom - ZOOM_STEP).toFixed(2));
-      updateZoomUI();
-    });
+  function bumpZoomIn() {
+    playerZoom = Math.min(MAX_ZOOM, +(playerZoom + ZOOM_STEP).toFixed(2));
+    updateZoomUI();
   }
 
+  function bumpZoomOut() {
+    playerZoom = Math.max(MIN_ZOOM, +(playerZoom - ZOOM_STEP).toFixed(2));
+    updateZoomUI();
+  }
+
+  function attachZoomHold(btn, dir) {
+    if (!btn) return;
+    const bump = dir > 0 ? bumpZoomIn : bumpZoomOut;
+    const atLimit = function () {
+      return dir > 0 ? playerZoom >= MAX_ZOOM : playerZoom <= MIN_ZOOM;
+    };
+
+    btn.addEventListener('click', function (e) {
+      if (e.detail !== 0) return;
+      if (atLimit()) return;
+      bump();
+    });
+
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.button !== -1) return;
+      e.preventDefault();
+      if (atLimit()) return;
+      bump();
+      clearZoomHold();
+      zoomHoldTimeout = setTimeout(function () {
+        zoomHoldTimeout = null;
+        zoomHoldInterval = setInterval(function () {
+          if (atLimit()) {
+            clearZoomHold();
+            return;
+          }
+          bump();
+        }, ZOOM_HOLD_INTERVAL_MS);
+      }, ZOOM_HOLD_DELAY_MS);
+    });
+
+    function endZoomHold() {
+      clearZoomHold();
+    }
+    btn.addEventListener('pointerup', endZoomHold);
+    btn.addEventListener('pointercancel', endZoomHold);
+    btn.addEventListener('pointerleave', endZoomHold);
+  }
+
+  attachZoomHold(zoomInBtn, 1);
+  attachZoomHold(zoomOutBtn, -1);
+
+  window.addEventListener('blur', clearZoomHold);
   window.addEventListener('resize', applyContainerScale);
 
   function advanceIntro() {
