@@ -512,6 +512,33 @@ body {
   -webkit-user-drag: none;
 }
 
+.trainer-card__photo-wrap {
+  position: absolute;
+  z-index: 1;
+  right: 7%;
+  top: 20%;
+  bottom: 7%;
+  width: 24%;
+  max-width: 168px;
+  min-width: 96px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+}
+
+.trainer-card__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 43% 22%;
+  /* Smooth photo; body uses pixelated rendering for the game */
+  image-rendering: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 .trainer-card__title {
   position: absolute;
   top: 36px;
@@ -519,14 +546,16 @@ body {
   font-size: 18px;
   color: #111;
   pointer-events: none;
+  z-index: 2;
 }
 
 .trainer-card__content {
   position: absolute;
   left: 44px;
   top: 92px;
-  width: 52%;
+  width: 48%;
   pointer-events: auto;
+  z-index: 2;
 }
 
 /* Add a little breathing room under the name */
