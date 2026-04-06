@@ -206,7 +206,8 @@
   let lastMoveTime = performance.now();
   let idleHintShown = false;
   let idleHintDialogOpen = false;
-  let lastSpritePath = '';
+  // Match CSS initial frame so first updatePlayerSprite() does not reset backgroundImage
+  let lastSpritePath = 'assets/movingup2.png';
   let dialogTypeTimer = null;
   let dialogTypeFullText = '';
   let dialogTypeIdx = 0;
@@ -236,6 +237,19 @@
       'assets/movingright3.png'
     ]
   };
+
+  (function preloadPlayerSprites() {
+    const urls = new Set();
+    Object.keys(SPRITES).forEach(function (dir) {
+      SPRITES[dir].forEach(function (url) {
+        urls.add(url);
+      });
+    });
+    urls.forEach(function (url) {
+      const img = new Image();
+      img.src = url;
+    });
+  })();
 
   function setPlayerPosition(x, y) {
     playerX = Math.max(0, Math.min(LAB_WIDTH - PLAYER_WIDTH, x));
@@ -933,8 +947,9 @@
 
   let lastTimestamp = performance.now();
   function gameLoop(timestamp) {
-    const deltaMs = timestamp - lastTimestamp;
+    const rawDelta = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
+    const deltaMs = rawDelta <= 0 ? 0 : Math.min(rawDelta, 100);
 
     // Check for idle hint: if the player hasn't moved in 2 minutes
     // and no dialog/panel is open, show a one-time textbox.
