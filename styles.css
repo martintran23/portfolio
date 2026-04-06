@@ -370,6 +370,7 @@ body {
   background-size: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  backface-visibility: hidden;
 }
 
 /* Dialog box - Pokémon style */
