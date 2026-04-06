@@ -515,10 +515,11 @@ body {
 .trainer-card__photo-wrap {
   position: absolute;
   z-index: 1;
-  right: 7%;
-  top: 20%;
-  bottom: 7%;
-  width: 24%;
+  left: 81.5%;
+  top: 60%;
+  width: 22%;
+  aspect-ratio: 3 / 4;
+  transform: translate(-50%, -50%);
   max-width: 168px;
   min-width: 96px;
   border-radius: 10px;
