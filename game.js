@@ -106,6 +106,32 @@
       return;
     }
 
+    if (facing === 'up' && isAtSecondClipboardSpot()) {
+      currentPokeball = null;
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.hidden = true;
+      optionPrimary.textContent = 'Read';
+      typeDialogText(
+        'This other clipboard seems to have some aspirations.',
+        18,
+        function () {
+          optionPrimary.hidden = false;
+          optionCancel.hidden = false;
+          allowDialogSkip = true;
+        }
+      );
+      allowDialogSkip = false;
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false;
+        openPanel('aspirations');
+      };
+      return;
+    }
+
     if (isAtLeftBookshelf()) {
       // Flavor text when examining the left bookshelf
       currentPokeball = null;
@@ -420,6 +446,25 @@
 
     const MIN_X = 292;
     const MAX_X = 332;
+    const MIN_Y = 395;
+    const MAX_Y = 410;
+
+    return (
+      footX >= MIN_X &&
+      footX <= MAX_X &&
+      footY >= MIN_Y &&
+      footY <= MAX_Y
+    );
+  }
+
+  // Second clipboard (goals list) on the top wall.
+  // Calibrated: feetX ~340–383, feetY ~400 when facing up.
+  function isAtSecondClipboardSpot() {
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    const MIN_X = 338;
+    const MAX_X = 385;
     const MIN_Y = 395;
     const MAX_Y = 410;
 
