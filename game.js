@@ -579,15 +579,15 @@
       height: 188.8 - 97.2
     },
     // Right bookshelf region based on your new measurements:
-    // Bottom edge: y ≈ 96.8
-    // Top edge:    y ≈ 189.2
+    // Bottom edge: y ≈ 97.0
+    // Top edge:    y ≈ 189.0
     // Left edge:   x ≈ 384.6
     // Right edge:  room right border (LAB_WIDTH)
     {
       left: 384.6,
-      bottom: 96.8,
+      bottom: 97.0,
       width: LAB_WIDTH - 384.6,
-      height: 189.2 - 96.8
+      height: 189.0 - 97.0
     },
     // Generator area:
     // Top edge:    y ≈ 366.4
