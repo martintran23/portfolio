@@ -80,6 +80,32 @@
       return;
     }
 
+    if (facing === 'up' && isAtTopWallControlsSpot()) {
+      currentPokeball = null;
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.hidden = true;
+      optionPrimary.textContent = 'Read';
+      typeDialogText(
+        'This clipboard seems to have some instructions on it.',
+        18,
+        function () {
+          optionPrimary.hidden = false;
+          optionCancel.hidden = false;
+          allowDialogSkip = true;
+        }
+      );
+      allowDialogSkip = false;
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false;
+        openPanel('controls');
+      };
+      return;
+    }
+
     if (isAtLeftBookshelf()) {
       // Flavor text when examining the left bookshelf
       currentPokeball = null;
@@ -262,12 +288,47 @@
     idleHintShown = false;
   }
 
+  function getPlayerFeet() {
+    return {
+      x: playerX + PLAYER_WIDTH / 2,
+      y: playerY
+    };
+  }
+
   function getPlayerCenter() {
     return {
       x: playerX + PLAYER_WIDTH / 2,
       y: LAB_HEIGHT - playerY - PLAYER_HEIGHT / 2
     };
   }
+
+  function logPlayerPosition(label) {
+    const feet = getPlayerFeet();
+    const center = getPlayerCenter();
+    console.log('[player-pos]' + (label ? ' ' + label : ''), {
+      x: +playerX.toFixed(2),
+      y: +playerY.toFixed(2),
+      feetX: +feet.x.toFixed(2),
+      feetY: +feet.y.toFixed(2),
+      centerX: +center.x.toFixed(2),
+      centerY: +center.y.toFixed(2),
+      facing: facing
+    });
+  }
+
+  // Handy for designing new interaction hitboxes in the lab.
+  window.__labDebug = {
+    getPlayerPosition: function () {
+      return {
+        x: playerX,
+        y: playerY,
+        feet: getPlayerFeet(),
+        center: getPlayerCenter(),
+        facing: facing
+      };
+    },
+    logPlayerPosition: logPlayerPosition
+  };
 
   // Helper to check if the player is standing in front of the left bookshelf
   function isAtLeftBookshelf() {
@@ -341,6 +402,26 @@
     const MAX_X = 170;  // extended another 10px further to the right
     const MIN_Y = 385;  // raised bottom edge by another 5
     const MAX_Y = 430;
+
+    return (
+      footX >= MIN_X &&
+      footX <= MAX_X &&
+      footY >= MIN_Y &&
+      footY <= MAX_Y
+    );
+  }
+
+  // Debug/utility interaction: a spot on the top wall that opens a controls panel.
+  // Calibrated from logged positions:
+  // { feetX: 294..330, feetY: 400 } when facing the top wall.
+  function isAtTopWallControlsSpot() {
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    const MIN_X = 292;
+    const MAX_X = 332;
+    const MIN_Y = 395;
+    const MAX_Y = 410;
 
     return (
       footX >= MIN_X &&
@@ -803,6 +884,13 @@
         e.preventDefault();
         advanceIntro();
       }
+      return;
+    }
+
+    // Debug: log player position (press P).
+    if (e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      logPlayerPosition('manual');
       return;
     }
 
