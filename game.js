@@ -132,6 +132,31 @@
       return;
     }
 
+    if (facing === 'up' && isAtDocumentationShelfSpot()) {
+      currentPokeball = null;
+      optionSecondary.hidden = true;
+      optionCancel.hidden = true;
+      optionPrimary.hidden = true;
+      optionPrimary.textContent = 'Close';
+      typeDialogText(
+        'Coming soon...',
+        18,
+        function () {
+          optionPrimary.hidden = false;
+          allowDialogSkip = true;
+        }
+      );
+      allowDialogSkip = false;
+      dialogOverlay.hidden = false;
+
+      optionPrimary.onclick = function () {
+        dialogOverlay.hidden = true;
+        optionPrimary.onclick = null;
+        optionCancel.hidden = false;
+      };
+      return;
+    }
+
     if (isAtLeftBookshelf()) {
       // Flavor text when examining the left bookshelf
       currentPokeball = null;
@@ -465,6 +490,25 @@
 
     const MIN_X = 338;
     const MAX_X = 385;
+    const MIN_Y = 395;
+    const MAX_Y = 410;
+
+    return (
+      footX >= MIN_X &&
+      footX <= MAX_X &&
+      footY >= MIN_Y &&
+      footY <= MAX_Y
+    );
+  }
+
+  // Documentation bookshelf zone on the top wall (future storytelling area).
+  // Calibrated: feetX ~432–608, feetY ~400 when facing up.
+  function isAtDocumentationShelfSpot() {
+    const footX = playerX + PLAYER_WIDTH / 2;
+    const footY = playerY;
+
+    const MIN_X = 430;
+    const MAX_X = 610;
     const MIN_Y = 395;
     const MAX_Y = 410;
 
