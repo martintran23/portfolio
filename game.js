@@ -904,7 +904,7 @@
           introStage = 1;
         }
         introTransitioning = false;
-      }, 760); // match intro-effect animation duration
+      }, 730); // match intro-effect animation duration
     } else if (introStage === 1) {
       // Controls -> game
       introOverlay.hidden = true;

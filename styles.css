@@ -223,7 +223,7 @@ body {
   image-rendering: auto;
   backface-visibility: hidden;
   will-change: transform, opacity;
-  animation: intro-expand-fade 0.72s ease-out forwards;
+  animation: intro-expand-fade 0.69s ease-out forwards;
 }
 
 @media (pointer: coarse), (max-width: 820px) {
@@ -235,7 +235,7 @@ body {
 
 @keyframes intro-expand-fade {
   0%   { transform: translate3d(-50%, -50%, 0) scale(0.12); opacity: 1; }
-  55%  { transform: translate3d(-50%, -50%, 0) scale(1.95); opacity: 0.58; }
+  52%  { transform: translate3d(-50%, -50%, 0) scale(1.98); opacity: 0.6; }
   100% { transform: translate3d(-50%, -50%, 0) scale(2.85); opacity: 0; }
 }
 
