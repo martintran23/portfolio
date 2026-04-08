@@ -216,19 +216,27 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0) scale(0.12);
+  opacity: 0;
   width: 640px;
   height: 640px;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  animation: intro-expand-fade 1s ease-out forwards;
+  image-rendering: auto;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  animation: intro-expand-fade 0.69s ease-out forwards;
+}
+
+@media (pointer: coarse), (max-width: 820px) {
+  .intro-effect {
+    width: 420px;
+    height: 420px;
+  }
 }
 
 @keyframes intro-expand-fade {
-  0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
-  25%  { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
-  60%  { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+  0%   { transform: translate3d(-50%, -50%, 0) scale(0.12); opacity: 1; }
+  52%  { transform: translate3d(-50%, -50%, 0) scale(1.98); opacity: 0.6; }
+  100% { transform: translate3d(-50%, -50%, 0) scale(2.85); opacity: 0; }
 }
 
 /* Full-screen wrapper: scale game to fill viewport while keeping 640×480 aspect ratio */
