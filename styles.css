@@ -730,6 +730,30 @@ body {
   line-height: 1.7;
 }
 
+.clipboard-card {
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.clipboard-card ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.clipboard-card li {
+  margin-bottom: 4px;
+}
+
+.clipboard-card li:last-child {
+  margin-bottom: 0;
+}
+
+.aspiration-note {
+  color: rgba(26, 26, 26, 0.55);
+}
+
 /* Controls hint - fixed at bottom of viewport */
 .controls-hint {
   position: fixed;
