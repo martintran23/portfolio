@@ -754,6 +754,10 @@ body {
   color: rgba(26, 26, 26, 0.55);
 }
 
+.aspiration-done {
+  color: #2e7d32;
+}
+
 /* Controls hint - fixed at bottom of viewport */
 .controls-hint {
   position: fixed;
