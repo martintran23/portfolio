@@ -1144,7 +1144,7 @@
       optionCancel.hidden = true;
       optionPrimary.hidden = true;
       optionPrimary.textContent = 'Close';
-      typeDialogText('I hope I find a job soon...', 18, function () {
+      typeDialogText('Time to go job searching...', 18, function () {
         optionPrimary.hidden = false;
         allowDialogSkip = true;
       });
