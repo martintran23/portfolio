@@ -758,6 +758,10 @@ body {
   color: #2e7d32;
 }
 
+.aspiration-progress {
+  color: #c9a227;
+}
+
 /* Controls hint - fixed at bottom of viewport */
 .controls-hint {
   position: fixed;
