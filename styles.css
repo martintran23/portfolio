@@ -722,6 +722,7 @@ body {
 .xp-duration {
   text-align: right;
   white-space: nowrap;
+  color: rgba(26, 26, 26, 0.8);
 }
 
 .xp-description {
