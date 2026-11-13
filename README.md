@@ -1,7 +1,7 @@
-# Portfolio
+# Portfolio (archived)
 
-Playable Pokemon-style lab portfolio built with plain HTML, CSS, and JavaScript.
+This Pokémon Lab portfolio is outdated. I moved to a new site:
 
-Explore the lab and pick a Pokeball (Projects, Experience, or Resume) to start your journey and discover fun surprises as you interact with the environment!
+**[martintranportfolio.vercel.app](https://martintranportfolio.vercel.app/)**
 
-Live site: https://martintran23.github.io/portfolio
+This repo remains as an archive of the interactive FireRed/LeafGreen-style lab built with plain HTML, CSS, and JavaScript.
